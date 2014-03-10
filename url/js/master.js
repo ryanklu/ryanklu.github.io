@@ -47,5 +47,14 @@ $(function() {
 	var client = new ZeroClipboard( $('#copy-mac-button') );
 	var client = new ZeroClipboard( $('#copy-pc-button') );
 
+	client.on( "load", function(client) {
+		// alert( "movie is loaded" );
+
+		client.on( "complete", function(client, args) {
+			// `this` is the element that was clicked
+			$(this).css('color','red');
+		});
+	});
+
 
 });
