@@ -37,3 +37,9 @@ body {
 .zeroclipboard-is-active {
 	color: #c09853;
 }
+.recycle-icon {
+	background: url(../img/recycle_icon.png) no-repeat 0 0;
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+}
