@@ -7,6 +7,9 @@ $(function() {
 		$('input.pcUrl').val(pcUrlGen);
 		$('#copy-pc-button').attr('data-clipboard-text', pcUrlGen);
 		$('#copy-mac-button').attr('data-clipboard-text', pcUrl);
+		setTimeout(function () {
+          $('button.submit').button('reset')
+        }, 500);
 	}
 	function generateMacUrl(){
 		var macUrl = $('input.pcUrl').val();
@@ -14,19 +17,26 @@ $(function() {
 		$('input.macUrl').val(macUrlGen);
 		$('#copy-mac-button').attr('data-clipboard-text', macUrlGen);
 		$('#copy-pc-button').attr('data-clipboard-text', macUrl);
+		setTimeout(function () {
+          $('button.submit').button('reset')
+        }, 500);
 	}
 	$('button.submit').click(function(){
 		if ($('input.macUrl').val()){
+			$('button.submit').button('loading');
 			generatePcUrl();
 		} else if ($('input.pcUrl').val()){
+			$('button.submit').button('loading');
 			generateMacUrl();
 		}
 	});
 	$('input').keypress(function (e) {
 		if (e.which == 13) {
 			if ($('input.macUrl').val()){
+				$('button.submit').button('loading');
 				generatePcUrl();
 			} else if ($('input.pcUrl').val()){
+				$('button.submit').button('loading');
 				generateMacUrl();
 			}
 			e.preventDefault();
@@ -56,6 +66,5 @@ $(function() {
 			}
 		});
 	});
-
 
 });
