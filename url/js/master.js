@@ -21,6 +21,13 @@ $(function() {
           $('button.submit').button('reset')
         }, 300);
 	}
+	function clearPage(){
+		$('input').not(':button, :submit, :reset, :hidden').val('');
+		$('#copy-pc-button').attr('data-clipboard-text', '');
+		$('#copy-mac-button').attr('data-clipboard-text', '');
+		$('#copy-mac-button, #copy-pc-button').removeClass('copied').find('i').attr('class','icon-plus-sign');
+	}
+	clearPage();
 	$('button.submit').click(function(){
 		if ($('input.macUrl').val()){
 			$('button.submit').button('loading');
@@ -43,10 +50,7 @@ $(function() {
 		}
 	});
 	$('button.clear').click(function(){
-		$('input').not(':button, :submit, :reset, :hidden').val('');
-		$('#copy-pc-button').attr('data-clipboard-text', '');
-		$('#copy-mac-button').attr('data-clipboard-text', '');
-		$('#copy-mac-button, #copy-pc-button').removeClass('copied').find('i').attr('class','icon-plus-sign');
+		clearPage();
 	});
 	// $("input[type='text']").live("click", function () {
 	//    $(this).select();
