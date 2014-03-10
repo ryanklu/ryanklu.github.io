@@ -9,29 +9,31 @@ ryanklu.url = {
 	pcMacBtn : $('#copy-mac-button, #copy-pc-button'),
 	pcInput : $('input.pcUrl'),
 	macInput : $('input.macUrl'),
+	macUrl : $('input.macUrl'),
+	pcUrl : $('input.pcUrl'),
 
 	init : function(){
 		var _self =  this,
 			_object = ryanklu.url;
 
-		_self.copyUrl();
-		_self.clearPage();
+		_self._copyUrl();
+		_self._clearPage();
 
 		_object.submitBtn.click(function(){
-			_self.generateUrl();
+			_self._generateUrl();
 		});
 		_object.input.keypress(function (e) {
 			if (e.which == 13) {
-				_self.generateUrl();
+				_self._generateUrl();
 				e.preventDefault();
 			}
 		});
 		_object.resetBtn.click(function(){
-			_self.resetButton();
+			_self._resetButton();
 		});
 	},
 
-	clearPage : function(){
+	_clearPage : function(){
 		var _self =  this,
 			_object = ryanklu.url;
 
@@ -41,10 +43,10 @@ ryanklu.url = {
 		_object.pcMacBtn.removeClass('copied').find('i').attr('class','icon-plus-sign');
 	},
 
-	generatePcUrl : function(){
+	_generatePcUrl : function(){
 		var _self =  this,
 			_object = ryanklu.url;
-			_pcUrl = $('input.macUrl').val(),
+			_pcUrl = _object.macUrl.val(),
 			_pcUrlGen = _pcUrl.replace("smb:","").replace(/\//g, "\\");
 
 		_object.pcInput.val(_pcUrlGen);
@@ -55,10 +57,10 @@ ryanklu.url = {
         }, 400);
 	},
 
-	generateMacUrl : function(){
+	_generateMacUrl : function(){
 		var _self =  this,
 			_object = ryanklu.url;
-			_macUrl = $('input.pcUrl').val(),
+			_macUrl = _object.pcUrl.val(),
 			_macUrlGen = _macUrl.replace('\\\\','smb:\\\\').replace(/\\/g, '/');
 
 		_object.macInput.val(_macUrlGen);
@@ -69,26 +71,26 @@ ryanklu.url = {
         }, 400);
 	},
 
-	generateUrl : function(){
+	_generateUrl : function(){
 		var _self =  this,
 			_object = ryanklu.url;
 
 		if (_object.macInput.val()){
 			_object.submitBtn.button('loading');
-			_self.generatePcUrl();
+			_self._generatePcUrl();
 		} else if (_object.pcInput.val()){
 			_object.submitBtn.button('loading');
-			_self.generateMacUrl();
+			_self._generateMacUrl();
 		}
 	},
 
-	resetButton : function(){
+	_resetButton : function(){
 		var _self =  this;
 
-		_self.clearPage();
+		_self._clearPage();
 	},
 
-	copyUrl : function(){
+	_copyUrl : function(){
 		var _self =  this,
 			_object = ryanklu.url,
 			client = new ZeroClipboard($('#copy-mac-button, #copy-pc-button'));
