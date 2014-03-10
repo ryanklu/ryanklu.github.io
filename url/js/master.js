@@ -11,92 +11,92 @@ ryanklu.url = {
 	macInput : $('input.macUrl'),
 
 	init : function(){
-		var $self =  this,
-			$object = ryanklu.url;
+		var _self =  this,
+			_object = ryanklu.url;
 
-		$self.copyUrl();
-		$self.clearPage();
+		_self.copyUrl();
+		_self.clearPage();
 
-		$object.submitBtn.click(function(){
-			$self.generateUrl();
+		_object.submitBtn.click(function(){
+			_self.generateUrl();
 		});
-		$object.input.keypress(function (e) {
+		_object.input.keypress(function (e) {
 			if (e.which == 13) {
-				$self.generateUrl();
+				_self.generateUrl();
 				e.preventDefault();
 			}
 		});
-		$object.resetBtn.click(function(){
-			$self.resetButton();
+		_object.resetBtn.click(function(){
+			_self.resetButton();
 		});
 	},
 
 	clearPage : function(){
-		var $self =  this,
-			$object = ryanklu.url;
+		var _self =  this,
+			_object = ryanklu.url;
 
-		$object.input.not(':button, :submit, :reset, :hidden').val('');
-		$object.pcBtn.attr('data-clipboard-text', '');
-		$object.macBtn.attr('data-clipboard-text', '');
-		$object.pcMacBtn.removeClass('copied').find('i').attr('class','icon-plus-sign');
+		_object.input.not(':button, :submit, :reset, :hidden').val('');
+		_object.pcBtn.attr('data-clipboard-text', '');
+		_object.macBtn.attr('data-clipboard-text', '');
+		_object.pcMacBtn.removeClass('copied').find('i').attr('class','icon-plus-sign');
 	},
 
 	generatePcUrl : function(){
-		var $self =  this,
-			$object = ryanklu.url;
-			$pcUrl = $('input.macUrl').val(),
-			$pcUrlGen = $pcUrl.replace("smb:","").replace(/\//g, "\\");
+		var _self =  this,
+			_object = ryanklu.url;
+			_pcUrl = $('input.macUrl').val(),
+			_pcUrlGen = _pcUrl.replace("smb:","").replace(/\//g, "\\");
 
-		$object.pcInput.val($pcUrlGen);
-		$object.pcBtn.attr('data-clipboard-text', $pcUrlGen);
-		$object.macBtn.attr('data-clipboard-text', $pcUrl);
+		_object.pcInput.val(_pcUrlGen);
+		_object.pcBtn.attr('data-clipboard-text', _pcUrlGen);
+		_object.macBtn.attr('data-clipboard-text', _pcUrl);
 		setTimeout(function () {
-			$object.submitBtn.button('reset')
+			_object.submitBtn.button('reset')
         }, 400);
 	},
 
 	generateMacUrl : function(){
-		var $self =  this,
-			$object = ryanklu.url;
-			$macUrl = $('input.pcUrl').val(),
-			$macUrlGen = $macUrl.replace('\\\\','smb:\\\\').replace(/\\/g, '/');
+		var _self =  this,
+			_object = ryanklu.url;
+			_macUrl = $('input.pcUrl').val(),
+			_macUrlGen = _macUrl.replace('\\\\','smb:\\\\').replace(/\\/g, '/');
 
-		$object.macInput.val($macUrlGen);
-		$object.macBtn.attr('data-clipboard-text', $macUrlGen);
-		$object.pcBtn.attr('data-clipboard-text', $macUrl);
+		_object.macInput.val(_macUrlGen);
+		_object.macBtn.attr('data-clipboard-text', _macUrlGen);
+		_object.pcBtn.attr('data-clipboard-text', _macUrl);
 		setTimeout(function () {
-			$object.submitBtn.button('reset')
+			_object.submitBtn.button('reset')
         }, 400);
 	},
 
 	generateUrl : function(){
-		var $self =  this,
-			$object = ryanklu.url;
+		var _self =  this,
+			_object = ryanklu.url;
 
-		if ($object.macInput.val()){
-			$object.submitBtn.button('loading');
-			$self.generatePcUrl();
-		} else if ($object.pcInput.val()){
-			$object.submitBtn.button('loading');
-			$self.generateMacUrl();
+		if (_object.macInput.val()){
+			_object.submitBtn.button('loading');
+			_self.generatePcUrl();
+		} else if (_object.pcInput.val()){
+			_object.submitBtn.button('loading');
+			_self.generateMacUrl();
 		}
 	},
 
 	resetButton : function(){
-		var $self =  this;
+		var _self =  this;
 
-		$self.clearPage();
+		_self.clearPage();
 	},
 
 	copyUrl : function(){
-		var $self =  this,
-			$object = ryanklu.url,
+		var _self =  this,
+			_object = ryanklu.url,
 			client = new ZeroClipboard($('#copy-mac-button, #copy-pc-button'));
 
 		client.on( "load", function(client) {
 			client.on( "complete", function(client, args) {
-				if($object.pcInput.val()){
-					$object.pcMacBtn.removeClass('copied').find('i').attr('class','icon-plus-sign');
+				if(_object.pcInput.val()){
+					_object.pcMacBtn.removeClass('copied').find('i').attr('class','icon-plus-sign');
 					$(this).addClass('copied').find('i').attr('class','icon-ok-sign');
 				}
 			});
