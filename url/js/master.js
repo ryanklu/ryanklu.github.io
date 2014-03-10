@@ -62,6 +62,7 @@ $(function() {
 		client.on( "complete", function(client, args) {
 			// `this` is the element that was clicked
 			if($('input.pcUrl').val()){
+				$('#copy-mac-button, #copy-pc-button').removeClass('copied').find('i').attr('class','icon-plus-sign');
 				$(this).addClass('copied').find('i').attr('class','icon-ok-sign');
 			}
 		});
