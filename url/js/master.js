@@ -9,7 +9,7 @@ $(function() {
 		$('#copy-mac-button').attr('data-clipboard-text', pcUrl);
 		setTimeout(function () {
           $('button.submit').button('reset')
-        }, 500);
+        }, 300);
 	}
 	function generateMacUrl(){
 		var macUrl = $('input.pcUrl').val();
@@ -19,7 +19,7 @@ $(function() {
 		$('#copy-pc-button').attr('data-clipboard-text', macUrl);
 		setTimeout(function () {
           $('button.submit').button('reset')
-        }, 500);
+        }, 300);
 	}
 	$('button.submit').click(function(){
 		if ($('input.macUrl').val()){
