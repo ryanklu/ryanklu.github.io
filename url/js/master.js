@@ -29,13 +29,14 @@ $(function() {
 			} else if ($('input.pcUrl').val()){
 				generateMacUrl();
 			}
-			event.preventDefault();
+			e.preventDefault();
 		}
 	});
 	$('button.clear').click(function(){
 		$('input').not(':button, :submit, :reset, :hidden').val('');
 		$('#copy-pc-button').attr('data-clipboard-text', '');
 		$('#copy-mac-button').attr('data-clipboard-text', '');
+		$('#copy-mac-button, #copy-pc-button').removeClass('copied').find('i').attr('class','icon-plus-sign');
 	});
 	// $("input[type='text']").live("click", function () {
 	//    $(this).select();
@@ -44,15 +45,13 @@ $(function() {
         e.preventDefault();
     });
 
-	var client = new ZeroClipboard( $('#copy-mac-button') );
-	var client = new ZeroClipboard( $('#copy-pc-button') );
+	var client = new ZeroClipboard( $('#copy-mac-button, #copy-pc-button') );
 
 	client.on( "load", function(client) {
 		// alert( "movie is loaded" );
-
 		client.on( "complete", function(client, args) {
 			// `this` is the element that was clicked
-			$(this).css('color','red');
+			$(this).addClass('copied').find('i').attr('class','icon-ok-sign');
 		});
 	});
 
