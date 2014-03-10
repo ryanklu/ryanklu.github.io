@@ -9,7 +9,7 @@ $(function() {
 		$('#copy-mac-button').attr('data-clipboard-text', pcUrl);
 		setTimeout(function () {
           $('button.submit').button('reset')
-        }, 300);
+        }, 400);
 	}
 	function generateMacUrl(){
 		var macUrl = $('input.pcUrl').val();
@@ -19,7 +19,7 @@ $(function() {
 		$('#copy-pc-button').attr('data-clipboard-text', macUrl);
 		setTimeout(function () {
           $('button.submit').button('reset')
-        }, 300);
+        }, 400);
 	}
 	function clearPage(){
 		$('input').not(':button, :submit, :reset, :hidden').val('');
