@@ -1,75 +1,118 @@
-$(function() {
-	// smb://atlfs01/groups/Design/Public/ClientReview/Harmony
-	// \\atlfs01\groups\Design\Public\ClientReview\Harmony
-	function generatePcUrl(){
-		var pcUrl = $('input.macUrl').val();
-		var pcUrlGen = pcUrl.replace("smb:","").replace(/\//g, "\\");
-		$('input.pcUrl').val(pcUrlGen);
-		$('#copy-pc-button').attr('data-clipboard-text', pcUrlGen);
-		$('#copy-mac-button').attr('data-clipboard-text', pcUrl);
-		setTimeout(function () {
-          $('button.submit').button('reset')
-        }, 400);
-	}
-	function generateMacUrl(){
-		var macUrl = $('input.pcUrl').val();
-		var macUrlGen = macUrl.replace('\\\\','smb:\\\\').replace(/\\/g, '/');
-		$('input.macUrl').val(macUrlGen);
-		$('#copy-mac-button').attr('data-clipboard-text', macUrlGen);
-		$('#copy-pc-button').attr('data-clipboard-text', macUrl);
-		setTimeout(function () {
-          $('button.submit').button('reset')
-        }, 400);
-	}
-	function clearPage(){
-		$('input').not(':button, :submit, :reset, :hidden').val('');
-		$('#copy-pc-button').attr('data-clipboard-text', '');
-		$('#copy-mac-button').attr('data-clipboard-text', '');
-		$('#copy-mac-button, #copy-pc-button').removeClass('copied').find('i').attr('class','icon-plus-sign');
-	}
-	clearPage();
-	$('button.submit').click(function(){
-		if ($('input.macUrl').val()){
-			$('button.submit').button('loading');
-			generatePcUrl();
-		} else if ($('input.pcUrl').val()){
-			$('button.submit').button('loading');
-			generateMacUrl();
-		}
-	});
-	$('input').keypress(function (e) {
-		if (e.which == 13) {
-			if ($('input.macUrl').val()){
-				$('button.submit').button('loading');
-				generatePcUrl();
-			} else if ($('input.pcUrl').val()){
-				$('button.submit').button('loading');
-				generateMacUrl();
-			}
-			e.preventDefault();
-		}
-	});
-	$('button.clear').click(function(){
-		clearPage();
-	});
-	// $("input[type='text']").live("click", function () {
-	//    $(this).select();
-	// });
-    $('#copy-button').live('click', function(e) {
-        e.preventDefault();
-    });
+ryanklu = {};
+ryanklu.url = {
 
-	var client = new ZeroClipboard( $('#copy-mac-button, #copy-pc-button') );
+	init : function(){
+		//console.log('init');
+		var _self =  this,
+			submitBtn = $('button.submit'),
+			input = $('input'),
+			resetBtn = $('button.clear');
 
-	client.on( "load", function(client) {
-		// alert( "movie is loaded" );
-		client.on( "complete", function(client, args) {
-			// `this` is the element that was clicked
-			if($('input.pcUrl').val()){
-				$('#copy-mac-button, #copy-pc-button').removeClass('copied').find('i').attr('class','icon-plus-sign');
-				$(this).addClass('copied').find('i').attr('class','icon-ok-sign');
+		_self.copyUrl();
+		_self.clearPage();
+
+		submitBtn.click(function(){
+			_self.generateUrl();
+		});
+		input.keypress(function (e) {
+			if (e.which == 13) {
+				_self.generateUrl();
+				e.preventDefault();
 			}
 		});
-	});
+		resetBtn.click(function(){
+			_self.resetButton();
+		});
+	},
 
-});
+	clearPage : function(){
+		//console.log('clearPage');
+		var _self =  this,
+			input = $('input'),
+			pcBtn = $('#copy-pc-button'),
+			macBtn = $('#copy-mac-button'),
+			pcMacBtn = $('#copy-mac-button, #copy-pc-button');
+
+		input.not(':button, :submit, :reset, :hidden').val('');
+		pcBtn.attr('data-clipboard-text', '');
+		macBtn.attr('data-clipboard-text', '');
+		pcMacBtn.removeClass('copied').find('i').attr('class','icon-plus-sign');
+	},
+
+	generatePcUrl : function(){
+		//console.log('generating pc url');
+		var _self =  this,
+			pcUrl = $('input.macUrl').val(),
+			pcUrlGen = pcUrl.replace("smb:","").replace(/\//g, "\\"),
+			pcInput = $('input.pcUrl'),
+			pcBtn = $('#copy-pc-button'),
+			macBtn = $('#copy-mac-button'),
+			submitBtn = $('button.submit');
+
+		pcInput.val(pcUrlGen);
+		pcBtn.attr('data-clipboard-text', pcUrlGen);
+		macBtn.attr('data-clipboard-text', pcUrl);
+		setTimeout(function () {
+			submitBtn.button('reset')
+        }, 400);
+	},
+
+	generateMacUrl : function(){
+		//console.log('generating mac url');
+		var _self =  this,
+			macUrl = $('input.pcUrl').val(),
+			macUrlGen = macUrl.replace('\\\\','smb:\\\\').replace(/\\/g, '/'),
+			macInput = $('input.macUrl'),
+			pcBtn = $('#copy-pc-button'),
+			macBtn = $('#copy-mac-button'),
+			submitBtn = $('button.submit');
+
+		macInput.val(macUrlGen);
+		macBtn.attr('data-clipboard-text', macUrlGen);
+		pcBtn.attr('data-clipboard-text', macUrl);
+		setTimeout(function () {
+			submitBtn.button('reset')
+        }, 400);
+	},
+
+	generateUrl : function(){
+		//console.log('generating url')
+		var _self =  this,
+			macInput = $('input.macUrl'),
+			pcInput = $('input.pcUrl'),
+			submitBtn = $('button.submit');
+
+		if (macInput.val()){
+			submitBtn.button('loading');
+			_self.generatePcUrl();
+		} else if (pcInput.val()){
+			submitBtn.button('loading');
+			_self.generateMacUrl();
+		}
+	},
+
+	resetButton : function(){
+		//console.log('reset');
+		var _self =  this;
+
+		_self.clearPage();
+	},
+
+	copyUrl : function(){
+		var _self =  this,
+			client = new ZeroClipboard($('#copy-mac-button, #copy-pc-button'));
+
+		client.on( "load", function(client) {
+			//console.log('movie has loaded');
+			client.on( "complete", function(client, args) {
+				//console.log('copying is complete');
+				if($('input.pcUrl').val()){
+					$('#copy-mac-button, #copy-pc-button').removeClass('copied').find('i').attr('class','icon-plus-sign');
+					$(this).addClass('copied').find('i').attr('class','icon-ok-sign');
+				}
+			});
+		});
+	}
+
+};
+ryanklu.url.init();
