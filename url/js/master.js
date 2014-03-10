@@ -51,7 +51,9 @@ $(function() {
 		// alert( "movie is loaded" );
 		client.on( "complete", function(client, args) {
 			// `this` is the element that was clicked
-			$(this).addClass('copied').find('i').attr('class','icon-ok-sign');
+			if($('input.pcUrl').val()){
+				$(this).addClass('copied').find('i').attr('class','icon-ok-sign');
+			}
 		});
 	});
 
