@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Test</title>
+	<link rel="stylesheet" href="master.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script>
+	$(document).ready(function(){
+	  $("button").click(function(){
+	    $("html").toggleClass("thin");
+	  });
+	});
+	</script>
+</head>
+<body>
+<button>Thin Mode</button>
+<div id="container" class="clearfix">
+	<div id="s3" class="content section">
+		<span><u>Content 1</u> - Load 1</span>
+	</div>
+	<div id="s4" class="right section">
+		<span><u>Right 1</u> - Load 2</span>
+	</div>
+	<div id="s5" class="content_btm section">
+		<span><u>Content 2</u> - Load 3</span>
+	</div>
+	<div id="s6" class="right two section">
+		<span><u>Right 2</u> - Load 4</span>
+	</div>
+</div>
+</body>
+</html>
