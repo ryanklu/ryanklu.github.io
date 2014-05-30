@@ -1,0 +1,602 @@
+#footer {
+text-align: center;
+}
+#footer ul {
+clear:both;
+}
+#footer ul li {
+display: inline-block;
+margin-top: 10px;
+font-size: 12px;
+}
+#footer .toggle_site {
+float: none;
+}
+#footer .share_icons {
+text-align: center;
+}
+#footer .share_icons h6 {
+display: inline-block;
+width: auto;
+float: none;
+}
+#footer .share_icons ul {
+display: inline-block;
+vertical-align: middle;
+}
+#footer .share_icons ul li {
+width: 30px;
+}
+#footer .toggle_site {
+float: none;
+}
+a.clearSearchBtn {
+display: none !important;
+}
+#masthead_alpha #main_menu_button {
+color: transparent;
+font-family: "Roboto Condensed Bold", "Droid Sans", "HelveticaNeue-CondensedBold", "Helvetica Neue", "HelveticaNeue", Arial, sans-serif;
+font-size: 120%;
+font-weight: bold;
+left: auto;
+top: auto;
+position: absolute;
+border: none;
+padding: 0;
+border-radius: 0;
+box-shadow: none;
+background: transparent;
+}
+#masthead_alpha #top_search {
+padding: 0;
+background: transparent;
+z-index: 1;
+position: relative;
+top: auto;
+height: auto;
+overflow: hidden;
+border-bottom: none;
+}
+#searchQuery_fmt {
+background: transparent !important;
+}
+/**************************************************************************
+***************************************************************************
+***************************************************************************
+SEPARATE A/B TESTING CSS ALPHA
+***************************************************************************
+***************************************************************************
+**************************************************************************/
+body.krg-ss-active #header_ctr .ad_rdr {
+display: none;
+}
+body .ad_label.krg-ss-loc-pbelow {
+display: none;
+padding: 4px 0 1px 0;
+}
+body.krg-ss-active .ad_label.krg-ss-loc-pbelow {
+display: block;
+}
+body,
+.sub_nav_open,
+.search_open #masthead_alpha {
+overflow: hidden;
+}
+.kargo-top-ad #header_ctr .ad_label {
+display: none;
+}
+#masthead_alpha .main_menu_wrapper {
+background-color: #fefefe;
+background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#ececec));
+background-image: -webkit-linear-gradient(top, #fefefe, #ececec);
+background-image: -moz-linear-gradient(top, #fefefe, #ececec);
+background-image: -o-linear-gradient(top, #fefefe, #ececec);
+background-image: linear-gradient(to bottom, #fefefe, #ececec);
+background-size: cover;
+box-sizing: border-box;
+box-shadow: 0 0 4px 1px rgba(0,0,0,0.2);
+height: 42px;
+position: relative;
+padding: 10px 0 0 10px;
+z-index: 1;
+text-align: left;
+border-bottom: solid 1px #fff;
+}
+#masthead_alpha .main_menu_wrapper div {
+display: inline-block;
+padding: 3px 0 0 0;
+}
+#masthead_alpha .main_menu_wrapper .search {
+position: absolute;
+right: 5px;
+top: 5px;
+width: auto;
+}
+#masthead_alpha #main_menu_button {
+display: none;
+background-size: 14px 13px;
+border: none;
+border-radius: 0;
+box-shadow: none;
+color: #fff;
+font-weight: 400;
+font-size: 100%;
+line-height: 15px;
+position: static;
+padding: 0 0 0 14px;
+vertical-align: middle;
+text-indent: -1000px;
+}
+#masthead_alpha .webmd_logo {
+display: inline-block;
+height: 19px;
+left: 50%;
+margin: 0;
+margin-left: -40px;
+position: absolute;
+top: 11px;
+vertical-align: middle;
+width: 80px;
+}
+#masthead_alpha .sticky_nav {
+background-color: #28769f;
+background-image: -webkit-gradient(linear, left top, left bottom, from(#28769f), to(#1193cb));
+background-image: -webkit-linear-gradient(top, #28769f, #1193cb);
+background-image: -moz-linear-gradient(top, #28769f, #1193cb);
+background-image: -o-linear-gradient(top, #28769f, #1193cb);
+background-image: linear-gradient(to bottom, #28769f, #1193cb);
+border-bottom: solid 1px #1781b8;
+position: relative;
+height: 40px;
+width: 100%;
+z-index: 3000;
+}
+#masthead_alpha .sticky,
+#masthead_alpha .sticky-kargo {
+margin-bottom: 40px;
+}
+#masthead_alpha .sticky + .sticky_nav,
+#masthead_alpha .sticky-kargo + .sticky_nav {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+z-index: 1001;
+}
+#masthead_alpha .sticky-kargo + .sticky_nav {
+top: 50px;
+}
+.sub_nav_open #masthead_alpha .sticky + .sticky_nav,
+.sub_nav_open #masthead_alpha .sticky-kargo + .sticky_nav {
+position: absolute;
+}
+/*.nav_dropdown_active .sticky + .sticky_nav,
+.nav_dropdown_active .sticky-kargo + .sticky_nav {
+position: absolute;
+}*/
+#masthead_alpha #top_search {
+padding: 0;
+background: transparent;
+z-index: 0;
+position: absolute;
+top: auto;
+height: auto;
+overflow: visible;
+border-bottom: none;
+}
+#masthead_alpha .sticky_nav #top_search.expandable_search {
+background-color: #28769f;
+background-image: -webkit-gradient(linear,left top,left bottom,from(#28769f),to(#2d9cbd));
+background-image: -webkit-linear-gradient(top,#28769f,#2d9cbd);
+background-image: -moz-linear-gradient(top,#28769f,#2d9cbd);
+background-image: -o-linear-gradient(top,#28769f,#2d9cbd);
+background-image: linear-gradient(to bottom,#28769f,#2d9cbd);
+height: 100%;
+position: absolute;
+right: 0;
+display: none;
+width: 100%;
+}
+.search_open #masthead_alpha .sticky_nav {
+position: absolute;
+}
+.search_open #masthead_alpha .sticky_nav #top_search {
+right: 0;
+top: 41px;
+display: block;
+}
+#masthead_alpha .sticky_nav form {
+background-color: #fff;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border-bottom-left-radius: 5px;
+border-bottom-right-radius: 5px;
+border-radius: 5px;
+-webkit-border-radius: 5px;
+box-sizing: border-box;
+height: 30px;
+margin: 5px 2% 0 2%;
+position: relative;
+padding: 1px;
+width: 96%;
+}
+#masthead_alpha .sticky_nav input[type=text] {
+background-color: #fff;
+border: none;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+border-bottom-left-radius: 5px;
+border-bottom-right-radius: 5px;
+border-radius: 5px;
+box-sizing: border-box;
+color: #666;
+height: 100%;
+margin: 0;
+padding: 0;
+padding: 5px;
+width: 92%;
+}
+#masthead_alpha .sticky_nav ::-webkit-input-placeholder {
+color: #666;
+}
+#masthead_alpha .sticky_nav .clearSearchBtn {
+right: 10px;
+top: 8px;
+}
+#masthead_alpha #searchTypeahead_fmt {
+top: 81px !important;
+width: 100% !important;
+left: 0;
+}
+#masthead_alpha .sticky_nav form [type=submit] {
+background-color: #f17d32;
+background-image: -webkit-gradient(linear, left top, left bottom, from(#f17d32), to(#c14f27));
+background-image: -webkit-linear-gradient(top, #f17d32, #c14f27);
+background-image: -moz-linear-gradient(top, #f17d32, #c14f27);
+background-image: -o-linear-gradient(top, #f17d32, #c14f27);
+background-image: linear-gradient(to bottom, #f17d32, #c14f27);
+border: none;
+border-radius: 0 3px 3px 0;
+color: #fff;
+height: 29px;
+position: absolute;
+right: -2px;
+top: 1px;
+display: none;
+}
+#masthead_alpha .sticky_nav .nav li {
+box-sizing: border-box;
+display: block;
+float: left;
+font-size: 13px;
+height: 40px;
+position: relative;
+padding-top: 5px;
+text-align: center;
+width: 28%;
+-webkit-font-smoothing: antialiased;
+}
+/*.sticky_nav .nav li:first-child {
+width: 28%;
+}
+.sticky_nav .nav li:nth-child(2) {
+width: 26%;
+}*/
+#masthead_alpha .sticky_nav .nav li a,
+#masthead_alpha .sticky_nav .nav li span {
+color: #fff;
+display: block;
+height: 100%;
+width: 100%;
+}
+#masthead_alpha .sticky_nav .nav .search {
+padding-top: 13px;
+}
+.search_open #masthead_alpha .nav .search {
+padding-top: 7px;
+}
+#masthead_alpha .sticky_nav .nav .search span,
+.search_open #masthead_alpha .sticky_nav .nav .search span {
+display: block;
+height: 15px;
+width: 15px;
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/search_icon_sprite.png) no-repeat;
+background-size: cover;
+padding: 0;
+position: relative;
+z-index: 1;
+margin: 0 auto;
+}
+.search_open #masthead_alpha .sticky_nav .nav .search span {
+background-position: 6px;
+background-size: 36px;
+background-color: #21749f;
+padding: 6px;
+border-top-left-radius: 6px;
+border-top-right-radius: 6px;
+border-bottom-left-radius: 6px;
+border-bottom-right-radius: 6px;
+-webkit-border-radius: 6px;
+border-radius: 6px;
+box-shadow: inset 0px 0px 6px rgba(0,0,0, .5);
+}
+#masthead_alpha .sticky_nav .nav li.active:after {
+content: '';
+display: block;
+height: 5px;
+width: 9px;
+position: absolute;
+left: 50%;
+margin-left: -4.5px;
+bottom: 0;
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/active_arrow_sprite.png) no-repeat bottom center;
+background-size: cover;
+background-position: 0;
+}
+#masthead_alpha .sticky_nav .nav li:nth-child(2).active:after {
+background-position: -23px;
+}
+#masthead_alpha .sticky_nav .nav li:nth-child(3).active:after {
+background-position: -12px;
+}
+#masthead_alpha .sticky_nav a hr {
+background: rgba(255,255,255,0.3);
+border: none;
+display: block;
+height: 23px;
+margin: 0;
+position: absolute;
+right: 0;
+top: 9px;
+width: 1px;
+}
+#masthead_alpha .sticky_nav a .short {
+background: #fff;
+opacity: .5;
+}
+#masthead_alpha .sticky_nav .nav li:last-child {
+width: 15.8%;
+position: relative;
+z-index: 100;
+}
+#masthead_alpha .sticky_nav .nav li:last-child hr {
+display: none;
+}
+#masthead_alpha .sub_nav {
+background: #fff;
+border-top: solid 4px #2473ac;
+display: none;
+position: absolute;
+top: 40px;
+width: 100%;
+z-index: 100;
+}
+#masthead_alpha .sub_nav.active {
+display: block;
+}
+#masthead_alpha .sub_nav li {
+background: #fff;
+height: auto;
+text-align: left;
+width: 100%;
+}
+#masthead_alpha .sub_nav li a {
+border-bottom: solid 1px #bfbfbf;
+box-sizing: border-box;
+color: #3789b9;
+display: block;
+margin: 0 auto;
+padding: 12px 15px 12px 42px;
+width: 95%;
+text-decoration: none;
+font-family: Helvetica, Arial, sans-serif;
+}
+#masthead_alpha .sub_nav li h3 a {
+padding-left: 36px;
+font-family: 'Droid Sans', HelveticaNeue-CondensedBold, 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+}
+#masthead_alpha .sub_nav li h3 {
+box-sizing: border-box;
+color: #3789b9;
+font-weight: 700;
+font-size: 14px;
+font-family: Helvetica,sans-serif;
+position: relative;
+width: 100%;
+}
+#masthead_alpha .sub_nav li h3 em {
+color: #ebc126;
+margin-left: 7px;
+}
+#masthead_alpha .sub_nav li h3 span {
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/icons/right-arrow.png) no-repeat;
+background-size: cover;
+height: 15px;
+position: absolute;
+right: 12px;
+top: 12px;
+width: 9px;
+}
+#masthead_alpha .sub_nav li .living_well {
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/icons/apple_subnav_icon.png) no-repeat 12px center;
+background-size: 15px 18px;
+padding: 12px 15px 12px 42px;
+border-bottom: solid 1px #bfbfbf;
+width: 95%;
+margin: 0 auto;
+color: #a7bf48;
+}
+#masthead_alpha .sub_nav li .family_pregnancy {
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/icons/family_subnav_icon.png) no-repeat 10px center;
+background-size: 20px 20px;
+padding: 12px 15px 12px 42px;
+border-bottom: solid 1px #bfbfbf;
+width: 95%;
+margin: 0 auto;
+color: #a7bf48;
+}
+#masthead_alpha .sub_nav.health_tools li mark {
+display: inline-block;
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/health_tools_sprite2.png) no-repeat;
+background-size: cover;
+height: 25px;
+width: 20px;
+right: auto;
+left: 10px;
+top: 10px;
+position: absolute;
+}
+#masthead_alpha .sub_nav li .health_forecasts mark {
+background-position: -17px;
+}
+#masthead_alpha .sub_nav li .symptom_checker mark {
+background-position: -37px;
+}
+#masthead_alpha .sub_nav li .drugs_medications mark {
+background-position: 0;
+}
+#masthead_alpha .sub_nav li .doctors mark {
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/mobile/stethascope.png) no-repeat;
+background-size: cover;
+width: 18px;
+margin-left: 3px;
+}
+#masthead_alpha .sub_nav li .health_insurance mark {
+height: 23px;
+background-position: -55px;
+}
+#masthead_alpha .sub_nav li .messages mark {
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/mobile/message-bubble.png) no-repeat;
+background-size: cover;
+width: 20px;
+height: 19px;
+top: 13px;
+left: 12px;
+}
+#masthead_alpha .sub_nav li .healthy_target mark {
+background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/mobile/healthy-target-icon.png) no-repeat;
+background-size: cover;
+width: 20px;
+height: 19px;
+top: 11px;
+left: 12px;
+}
+#masthead_alpha .sub_nav.living_healthy ul:last-child li:last-child a {
+border-bottom: solid 1px #bfbfbf;
+}
+#masthead_alpha .sub_nav.living_healthy {
+border-top: solid 4px #a7bf48;
+}
+#masthead_alpha .sub_nav.health_tools {
+border-top: solid 4px #eec633;
+}
+#masthead_alpha .sub_nav.health_tools {
+min-height: 400px;
+}
+#masthead_alpha .sub_nav.health_conditions li:last-child a {
+border: none;
+}
+.lhf {
+background-repeat: no-repeat;
+}
+.searchOverlay_alpha {
+position: absolute;
+top: 42px;
+right: 0;
+bottom: 0;
+left: 0;
+background: #5a5a5a;
+z-index: 1000;
+}
+#masthead_alpha .apps_list {
+height: 75px;
+overflow-y: hidden;
+}
+#masthead_alpha .apps_list h3 {
+background: #eec633;
+color: #fff;
+position: absolute;
+bottom: 90px;
+width: 100%;
+font-size: 13px;
+padding: 3px 0 6px 15px;
+font-family: 'Droid Sans', HelveticaNeue-CondensedBold, 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+text-transform: uppercase;
+font-weight: 800;
+box-shadow: -9px 10px 12px rgba(0,0,0, 0.2);
+}
+#masthead_alpha .apps_list ul {
+width: 615px;
+display: block;
+padding: 5px;
+}
+.ua_device_android #masthead_alpha .apps_list ul {
+width: 352px;
+}
+.ua_device_ipad #masthead_alpha .apps_list ul {
+width: 719px;
+}
+#masthead_alpha .apps_list div {
+width: 100%;
+overflow-x: scroll;
+-webkit-overflow-scrolling: touch;
+height: 104px;
+position: absolute;
+bottom: -27px;
+}
+#masthead_alpha .apps_list li {
+text-align: center;
+width: 85px;
+display: none;
+}
+#masthead_alpha .apps_list li a {
+display: none;
+}
+.ua_device_iphone #masthead_alpha .apps_list li.iphone,
+.ua_device_android #masthead_alpha .apps_list li.android,
+.ua_device_ipad #masthead_alpha .apps_list li.iphone {
+display: inline-block;
+}
+.ua_device_iphone #masthead_alpha .apps_list li a.iphone,
+.ua_device_ipad #masthead_alpha .apps_list li a.iphone,
+.ua_device_android #masthead_alpha .apps_list li a.android {
+display: inline-block;
+}
+.ua_device_iphone #masthead_alpha .apps_list li.ipad {
+display: none;
+}
+#masthead_alpha .apps_list li:first-child {
+width: 62px;
+margin-right: 19px;
+}
+#masthead_alpha .apps_list img {
+height: 40px;
+display: inline-block;
+}
+#masthead_alpha .apps_list span {
+color: #3789b9;
+display: block;
+font-size: 12px;
+}
+#masthead_alpha .apps_list span.rounded {
+border-radius: 5px;
+overflow: hidden;
+width: 40px;
+height: 40px;
+margin: 0 auto 3px;
+}
+#masthead_alpha .apps_list li a {
+border: none;
+margin: 0;
+padding: 0;
+width: auto;
+text-decoration: none;
+}
+#masthead_alpha .apps_list li .rounded {
+border-radius: 5px;
+overflow: hidden;
+}
+html.removeStickyNav .sticky_nav {
+display: none !important;
+}

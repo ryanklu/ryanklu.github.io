@@ -1,0 +1,118 @@
+#mainContentContainer_area {
+	background-color: #dbdfe0;
+	padding: 20px 0 0;
+	margin: -5px 0 0;
+	border-top:1px #ccc solid;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+div.btmSpacer {
+	height: 40px;
+}
+.stack {
+	max-width: 100%;
+	height: 175px;
+	position: relative;
+	margin: 40px 10px 0px 0;
+	padding: 8px;
+	overflow: hidden;
+	border: 1px #d8d8d8 solid;
+	background-color: #fff;
+	box-shadow:
+        1px 1px 1px rgba(0,0,0,0.1), /* The top layer shadow */
+        5px 5px 0 0px #fff, /* The second layer */
+        5px 5px 1px 1px rgba(0,0,0,0.15), /* The second layer shadow */
+        10px 10px 0 0px #fff, /* The third layer */
+        10px 10px 1px 1px rgba(0,0,0,0.15); /* The third layer shadow */
+}
+.stack .openStack {
+	position: absolute;
+	display: block;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
+}
+.stack.first {
+	margin-top: 0;
+}
+.stack .cardTitle {
+	background: url(../img/card_title.png) no-repeat 0 0;
+	width: 172px;
+	min-height: 44px;
+	background-color: #88a906;
+	position: absolute;
+	top: 125px;
+	left: 0;
+	z-index: 1;
+	-webkit-transition: all 0.5s ease 0s;
+    -moz-transition: all 0.5s ease 0s;
+    -o-transition: all 0.5s ease 0s;
+    transition: all 0.5s ease 0s;
+    box-shadow: 0 8px 6px -6px rgba(0,0,0,0.2);
+}
+.stack .cardTitle .closeStack {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	font-size: 18px;
+	font-weight: bold;
+	color: #fff;
+	display: none;
+}
+.cardCont {
+	height: 175px;
+	overflow: hidden;
+}
+.card {
+	max-width: 100%;
+	min-height: 120px;
+	margin: 0 0 10px;
+	background-color: #fff;
+	position: relative;
+	box-shadow: 0 8px 6px -6px #ccc;
+	border:2px solid #ededed;
+}
+.card i {
+	width: 80px;
+	height: 80px;
+	margin: 10px 0 0 10px;
+	display: block;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	background-color: #ccc
+}
+/* remove - just for testing*/
+.card img {
+	display: block;
+}
+.cardCont>.card:first-child {
+	display: block;
+	margin: -10px 0 0 -10px;
+}
+.stack.open .cardCont {
+	height: auto;
+}
+
+
+/* Stack Open*/
+.stack.open {
+	box-shadow: none;
+	height: auto;
+	padding: 0;
+	border: 0;
+	overflow: visible;
+	background-color: transparent;
+}
+.stack.open .openStack {
+	display: none;
+}
+.stack.open .cardTitle .closeStack.show {
+	display: block;
+}
+.stack.open .cardCont>.card:first-child {
+	margin: 0 0 10px;
+}
