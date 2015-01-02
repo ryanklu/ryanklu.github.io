@@ -1,0 +1,18 @@
+.sponsor.left {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+
+    span {
+        display: block;
+        padding: 0 2px 5px 2px;
+        font-size: .85em;
+        color: #333;
+        text-align: left;
+    }
+    img {
+        width: auto;
+        display: block;
+    }
+}

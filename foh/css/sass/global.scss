@@ -1,0 +1,104 @@
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    font-family: Lato,Arial,sans-serif;
+    font-size: 16px;
+}
+
+
+// Clearfix
+.clearfix:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+    }
+* html .clearfix             { zoom: 1; } /* IE6 */
+*:first-child+html .clearfix { zoom: 1; } /* IE7 */
+
+// Left Column
+.left-col {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    width: 250px;
+    z-index: 1000;
+    background: #fff;
+    border-right: 1px #ddd solid;
+    -webkit-transition: left 500ms ease-in-out;
+    -moz-transition: left 500ms ease-in-out;
+    -ms-transition: left 500ms ease-in-out;
+    -o-transition: left 500ms ease-in-out;
+    transition: left 500ms ease-in-out;
+
+    &.move-left {
+       left: -200px;
+
+       &:hover{
+            left: 0;
+       }
+    }
+}
+
+// Right Column
+.right-col {
+    //margin-left: 250px;
+    //padding-left: 250px;
+    // -webkit-transition: margin-left 0.5s ease-in-out;
+    // -moz-transition: margin-left 0.5s ease-in-out;
+    // -ms-transition: margin-left 0.5s ease-in-out;
+    // -o-transition: margin-left 0.5s ease-in-out;
+    // transition: margin-left 0.5s ease-in-out;
+
+    &.move-left {
+        //padding-left: 50px;
+    }
+}
+
+// Content
+.content {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #fff;
+    overflow: hidden;
+    position: relative;
+    background-size: 50% 0;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+
+    &:after {
+        content: '';
+        background: url('http://www.transparenttextures.com/patterns/az-subtle.png') repeat 0 0;
+        background-color:rgba(7, 89, 134, 0.25);
+        display: block;
+        height: 100%;
+        left: 0;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 0;
+        opacity: 1
+    }
+}
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
+.slide,
+.pl {
+    padding-left: 250px;
+}
+.slide.sub_slide {
+
+    &.active {
+        padding-left: 50px;
+    }
+}

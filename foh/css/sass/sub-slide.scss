@@ -1,0 +1,196 @@
+// Slide Panel
+.sub_slide {
+    position: relative;
+    background-color: #f5f9fa;
+
+    &:before {
+        content: '';
+        background: url('http://www.transparenttextures.com/patterns/az-subtle.png') repeat 0 0;
+        display: block;
+        height: 100%;
+        left: 0;
+        overflow: hidden;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: 0;
+        opacity: 0.45
+    }
+
+    .container {
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 40px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 20px;
+        }
+    }
+}
+
+// Button Bar
+.btn_bar {
+    width: 100%;
+    padding: 10px 0;
+    background-color: #fff;
+    border-bottom: 1px #eee solid;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    overflow: auto;
+
+    .arw_btn {
+        float: left;
+
+        i {
+            font-size: 3.5em;
+            color: #333;
+            text-shadow: none;
+        }
+    }
+    .sponsor.bar {
+        width: 90%;
+        max-width: 1400px;
+        margin: 0 auto;
+
+        .fr {
+            height: 50px;
+            line-height: 50px;
+            float: right;
+        }
+
+        span {
+            float: left;
+            margin-right: 10px;
+            font-size: .85em;
+            color: #333;
+        }
+    }
+}
+
+#slide3 .btn_bar {
+
+    .fr {
+        margin-top: 20px;
+    }
+}
+
+// Article
+.container.article {
+    background-color: #fff;
+    // border: 1px solid transparent;
+    // box-shadow: 0 0 6px rgba(0, 0, 0, 0.20);
+    // background-clip: padding-box;
+    // border-width: 0 6px;
+    border-right: 1px solid #eee;
+    border-left: 1px solid #eee;
+    padding-top: 77px;
+    box-sizing: content-box;
+
+    article {
+        font-size: 1rem;
+        color: #333;
+        box-sizing: border-box;
+
+        .banner_ad {
+            padding: 20px 0 0;
+            text-align: center;
+        }
+
+        .title_bar {
+            padding: 20px 20px 30px;
+
+            h1 {
+                font-size: 2.5em;
+                margin: 0;
+                font-family: 'Roboto Slab', serif;
+            }
+            .sponsor.bar {
+                .fr {
+                    height: 50px;
+                    line-height: 50px;
+                    float: right;
+                    margin-top: 5px;
+                }
+
+                span {
+                    float: left;
+                    margin-right: 10px;
+                    font-size: .85em;
+                    color: #333;
+                }
+            }
+        }
+        .art_content {
+            padding: 0 50px 35px 50px;
+            margin: 35px 350px 0 0;
+            position: relative;
+
+            .inner_content {
+                position: relative;
+
+                .right_col.top {
+                    position: absolute;
+                    right: -350px;
+                    top: 0;
+                }
+                .right_col.bottom {
+                    position: absolute;
+                    right: -350px;
+                    bottom: 0;
+                }
+
+                blockquote {
+                    width: 300px;
+                    font-size: 1.4em;
+                    line-height: 1.4em;
+                }
+            }
+
+
+            p {
+                margin: 0;
+                padding-bottom: 35px;
+                line-height: 30px;
+                font-size: 1.3em;
+
+                .video-thumb {
+                    margin-top: 10px;
+                    margin-right: 20px;
+                    float: left;
+                }
+            }
+        }
+
+        footer {
+            background: #f4f4f4;
+            text-align: center;
+            padding: 20px 0;
+
+            .arw_btn {
+
+                i {
+                    color: #333;
+                    font-size: 4em;
+                }
+
+                span {
+                    display: block;
+                    color: #333;
+                    font-size: 1.5em;
+                    font-family: 'Roboto Slab', serif;
+                }
+            }
+        }
+
+    }
+
+}
+
+#slide3 .container.article {
+    padding-top: 117px;
+}

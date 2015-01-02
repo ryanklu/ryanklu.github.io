@@ -1,0 +1,56 @@
+.masthead {
+    .logo {
+        background: url(http://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/usability/2012/LBi_Masthead/logo_trans.png) no-repeat 0 0;
+        background-size: 100%;
+        text-indent: -9999px;
+        overflow: hidden;
+        width: 150px;
+        height: 35px;
+        margin: 40px 0 40px 30px;
+        display: block;
+    }
+    .social {
+        // position: absolute;
+        // top: 20px;
+        // left: 50px;
+        margin: 20px 0 20px 30px;
+
+        i {
+            background: #aaaaaa;
+            height: 25px;
+            width: 25px;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 10px 0 0;
+
+            &:before {
+                position: absolute;
+                color: #fff;
+                top: 23%;
+                left: 29%;
+            }
+
+            &.fa-twitter {
+
+                &:before {
+                    left: 19%;
+                }
+            }
+
+            &.fa-pinterest {
+                background: #fff;
+                font-size: 29px;
+                line-height: 12px;
+                display: inline-block;
+                width: 23px;
+                margin-left: 2px;
+                height: 23px;
+
+                &:before {
+                    color: #aaaaaa;
+                    left: -5%;
+                }
+            }
+        }
+    }
+}

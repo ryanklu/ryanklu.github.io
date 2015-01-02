@@ -1,0 +1,15 @@
+{
+  "name": "jquery.scrollorama",
+  "homepage": "https://github.com/johnpolacek/scrollorama",
+  "version": "0.9.0",
+  "_release": "0.9.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.9.0",
+    "commit": "c86e72ad57ce313eaebec180e265ae9597fee4f4"
+  },
+  "_source": "git://github.com/johnpolacek/scrollorama.git",
+  "_target": "~0.9.0",
+  "_originalSource": "jquery.scrollorama",
+  "_direct": true
+}
