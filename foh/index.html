@@ -4,262 +4,231 @@
     <meta charset="UTF-8">
     <title>Future of Health</title>
 
-    <!-- <link rel="stylesheet" href="css/reset.css"> -->
     <link rel="stylesheet" href="css/master.css">
-    <!-- <link rel="stylesheet" href="public/lib/font-awesome-4.2.0/css/font-awesome.css"> -->
-    <!-- <link rel="stylesheet" href="public/lib/jquery.fullPage/jquery.fullPage.css"> -->
-    <!-- <link rel="stylesheet" href="public/lib/tooltipster/css/tooltipster.css"> -->
-    <!-- <link rel="stylesheet" href="public/lib/tooltipster/css/themes/tooltipster-noir.css"> -->
 
-    <script src="public/lib/jquery/jquery.min.js"></script>
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular.min.js"></script>
+    <script src="http://img.webmd.com/dtmcms/live/webmd/PageBuilder_Assets/JS/scripts363.js"></script>
 
-    <script src="public/lib/jquery.slimscroll/jquery.slimscroll.js"></script>
-    <script src="public/lib/jquery.fullPage/jquery.fullPage.js"></script>
-    <!-- <script src="public/lib/tooltipster/js/jquery.tooltipster.js"></script> -->
-
-    <!-- <script src="public/lib/stellar.js/src/jquery.stellar.js"></script> -->
-
-    <!-- <script src="public/lib/hc-sticky/jquery.hc-sticky.js"></script> -->
-    <!-- <script src="public/lib/jquery.snappoint/jquery.snappoint-1.5.js"></script> -->
-    <!-- <script src="public/lib/jquery.panelSnap/jquery.panelSnap.js"></script> -->
-    <script src="js/master.js"></script>
+    <script src="js/foh.js"></script>
 </head>
 <body>
+<div id="foh" ng-app="fohApp" ng-controller="fohCTRL">
+   <div class="left-col">
+      <header class="site_header">
+         <div class="masthead clearfix"><a href="/" class="logo" title="WebMD"><span class="logo-holder">WebMD</span></a><div class="foh-logo"><span class="med">Future</span><span class="sml">of</span><span class="lrg">Health</span></div>
+            <div class="attr"><span class="spr-sml">with</span><span class="name">Robin Roberts</span></div>
+         </div>
+      </header>
+      <div class="sponsor sponsor-left-col"><span class="attr-txt">Brought to you by</span><div class="spon-img"><img src="http://placehold.it/150x50/c294c3/ffffff"></div>
+      </div>
+      <div class="nav_menu">
+         <nav class="nav">
+            <ul id="menu" class="menu clearfix">
+               <li ng-repeat="foh in fohs" data-menuanchor="{{foh.sec.friendlyUrl}}" class="nav_{{$index + 1}}"><a href="#{{foh.sec.friendlyUrl}}">{{foh.sec.title}}<span class="act-tab"><i></i></span></a></li>
+            </ul>
+         </nav>
+      </div>
+      <div class="social"><i class="fa fa-envelope-o"></i><i class="fa fa-facebook"></i><i class="fa fa-twitter"></i><i class="fa fa-pinterest"></i></div>
+      <div class="copyright">
+         <p>© 2005-2014 WebMD, LLC. All rights reserved. WebMD does not provide medical advice, diagnosis or treatment.<br><a rel="nofollow" href="http://www.webmd.com/www/policies/additional-info?ss=ftr" onclick="return sl(this,'','f-about_25');">See additional information.</a></p>
+      </div>
+   </div>
+   <div class="right-col">
+      <div class="section_wrap">
+         <section id="sec_1" class="content sec_1 pl" back-img="{{fohs[0].sec.bgImg}}">
+            <div class="container clearfix">
+               <div class="toc_content">
+                  <h3>{{fohs[0].sec.title}}</h3><span class="attr">with {{fohs[0].sec.attribution}}</span><div ng-switch="" on="fohs[0].sec.sponsor.toc.state"><span ng-switch-when="false"><span class="spacer"></span></span><span ng-switch-default="">
+                        <div class="sponsor sponsor-toc">
+                           <div class="spon-img"><a href="{{fohs[0].sec.sponsor.toc.link}}" onclick="return sl(this,'','f-about_25');"><img ng-src="{{fohs[0].sec.sponsor.toc.image}}"></a></div>
+                        </div></span></div>
+                  <p>{{fohs[0].sec.description}}</p>
+               </div>
+               <div class="nxt-sec"><a href="#{{fohs[1].sec.friendlyUrl}}"><span class="nxt-sec-title">Next: {{fohs[1].sec.title}}</span><div class="dwn-arw"><i class="fa fa-angle-down"></i></div></a></div>
+            </div>
+         </section>
+         <section ng-repeat="foh in fohs" ng-if="foh.sec.id != 1" id="sec_{{$index + 1}}" class="content sec_{{$index + 1}}" back-img="{{foh.sec.bgImg}}">
+            <div class="slide" id="slide{{$index + 1}}">
+               <div class="container clearfix">
+                  <div class="toc_content">
+                     <h3>{{foh.sec.title}}</h3><span class="spacer"></span><p>{{foh.sec.description}}</p>
+                     <div class="art_btn"><a href="#{{foh.sec.friendlyUrl}}/{{foh.sec.subSlideUrl}}" class="arw_btn read-more hide-left-trigger">Explore this topic</a></div>
+                  </div>
+                  <div class="nxt-sec" ng-if="foh.sec.id != 6"><a href="#{{foh.sec.nextSlide}}"><span class="nxt-sec-title">Next: {{foh.sec.nextSlide}}</span><div class="dwn-arw"><i class="fa fa-angle-down"></i></div></a></div>
+               </div>
+            </div>
+            <div class="slide sub_slide" data-ajax-url="{{foh.sec.ajaxUrl}}" data-anchor="{{foh.sec.subSlideUrl}}" id="sub_slide{{$index + 1}}">
+               <div class="btn_bar clearfix">
+                  <div class="sponsor bar clearfix"><a href="#{{foh.sec.friendlyUrl}}" class="arw_btn read-less show-left-trigger">Back</a></div>
+               </div>
+               <div class="container article clearfix">
+                  <article>
+                     <header class="title_bar">
+                        <h1>{{foh.sec.data.title}}</h1>
+                     </header>
+                     <div class="art_full_col"></div>
+                     <div class="art_content clearfix" ng-bind-html="foh.sec.data.content"></div>
+                     <footer ng-if="foh.sec.id != 6"><a href="#{{foh.sec.nextSlide}}" class="arw_btn next-section show-left-trigger">Next: {{foh.sec.nextSlide}}</a></footer>
+                  </article>
+               </div>
+            </div>
+         </section>
+      </div>
+   </div>
+</div>
     <script>
-    // FOH - App
-    var fohApp = angular.module('fohApp', [
-        'fohControllers',
-        'fohFilters',
-        'fohDirectives'
-    ]);
-
-    // FOH - Filters
-    var fohFilters = angular.module('fohFilters', []);
-    fohFilters.filter('unsafe', function($sce) {
-        return function(val) {
-            return $sce.trustAsHtml(val);
-        };
-    });
-
-    // FOH - Directives
-    var fohDirectives = angular.module('fohDirectives', []);
-    fohDirectives.directive('backImg', function(){
-        return function(scope, element, attrs){
-            var url = attrs.backImg;
-            element.css({
-                'background-image': 'url(' + url +')'
-            });
-        };
-    });
-    // fohDirectives.directive('fullPage', function() {
-    //     return {
-    //         // Restrict it to be an attribute in this case
-    //         restrict: 'A',
-    //         // responsible for registering DOM listeners as well as updating the DOM
-    //         link: function(scope, element, attrs) {
-    //             $(element).fullpage(scope.$eval({
-
-    //                 menu: '#menu',
-    //                 anchors: ['future-of-health','womb-transplant','3d-printing','lastest-on-obesity','wireless-medicine','advances-in-vision'],
-
-
-    //                 scrollingSpeed: 800,
-    //                 autoScrolling: true,
-    //                 scrollBar: false,
-    //                 easing: 'easeInOutQuad',
-    //                 scrollOverflow: true,
-    //                 touchSensitivity: 5,
-    //                 normalScrollElementTouchThreshold: 5,
-
-
-    //                 keyboardScrolling: false,
-    //                 animateAnchor: true,
-
-
-    //                 controlArrows: false,
-    //                 resize : false,
-
-
-    //                 sectionSelector: '.content',
-    //                 slideSelector: '.slide',
-
-
-    //                 onLeave: function(index, nextIndex, direction){
-    //                     var n = $(".fp-section").eq(nextIndex - 1);
-    //                     n.find(".fp-slides").length && $.fn.fullpage.scrollSlider(n, 0);
-    //                 },
-    //                 afterLoad: function(anchorLink, index){
-
-
-    //                     console.log(index);
-    //                     $('#sec_'+index).addClass('current-slide');
-    //                 },
-    //                 afterRender: function(){
-    //                     $('.sec_1').addClass('current-slide');
-
-
-
-
-
-
-    //                     $('.read-more').on('click', function(){
-    //                         $.fn.fullpage.setAllowScrolling(false, 'down, up');
-    //                     });
-
-    //                     $('.read-less, .nav a').on('click', function(){
-    //                         $.fn.fullpage.setAllowScrolling(true, 'down, up');
-    //                     });
-
-    //                     if(document.location.hash.indexOf('/') > -1){
-    //                         $.fn.fullpage.setAllowScrolling(false, 'down, up');
-    //                     }
-    //                     if(document.location.hash === "" || document.location.hash === "#future-of-health"){
-    //                         $('.nav li.nav_1').addClass('active');
-    //                     }
-    //                 },
-    //                 afterResize: function(){
-
-    //                 },
-    //                 afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){
-
-    //                 },
-    //                 onSlideLeave: function(anchorLink, index, slideIndex, direction){
-
-    //                 }
-    //             }));
-    //         }
-    //     };
-    // });
+    // this works but it's pretty lame
+    var fohSections = ['future-of-health','womb-transplant','3d-printing','lastest-on-obesity','wireless-medicine','advances-in-vision'];
 
     // FOH - Controllers
-    var fohControllers = angular.module('fohControllers', []);
-    fohControllers.controller('fohCTRL', ['$scope', function($scope){
+    fohControllers.controller('fohCTRL', ['$scope', '$http', function($scope, $http){
+        // $http.get('json/program.json').
+        //     success(function(data, status, headers, config) {
+        //         //var deferred = $q.defer();
+
+        //         $scope.fohs = data;
+        //         //$scope.status = status;
+        //         console.log(data);
+        //         console.log(status);
+        //         console.log(headers);
+        //         console.log(config);
+
+        //         //return deferred.promise;
+        //     });
         $scope.fohs = [
             {
-                sec : {
-                    id : 1,
-                    bgImg : 'img/promo.jpg',
-                    title : 'Future of Health',
-                    attribution : 'Lorem Ipsum',
-                    friendlyUrl : 'future-of-health',
-                    nextSlide : 'womb-transplant',
-                    description : 'Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.'
-                }
-            },
-            {
-                sec : {
-                    id : 2,
-                    bgImg : 'img/TheFutureofHealth_2000x959_01.jpg',
-                    title : 'Womb Transplant',
-                    attribution : '',
-                    friendlyUrl : 'womb-transplant',
-                    subSlideUrl : '1',
-                    nextSlide : '3d-printing',
-                    description : 'Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.',
-                    data : {
-                        title : 'Lorem Ipsum Presents',
-                        content : '<div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div></div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <blockquote>"Lorem ipsum dolor sit amet, consectetur adipisicing elit."</blockquote> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div><img src="img/article-slideshow.jpg" style="width:100%;margin-bottom: 35px;" alt=""> </div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><div class="inner_content"> <div class="right_col top"> <img src="img/poll.jpg" alt=""> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p><img class="video-thumb" src="img/video-thumb.jpg" alt="">Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col bottom"> <img src="http://placehold.it/300x250" alt=""> </div></div>'
-                    },
-                    sponsor : {
-                        btnBar : {
-                            state : true,
-                            link : '#ryan',
-                            image : 'http://placehold.it/150x50'
+                "sec" : {
+                    "id" : 1,
+                    "bgImg" : "img/promo.jpg",
+                    "title" : "Future of Health",
+                    "attribution" : "Lorem Ipsum",
+                    "friendlyUrl" : "future-of-health",
+                    "nextSlide" : "womb-transplant",
+                    "description" : "Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.",
+                    "sponsor" : {
+                        "toc" : {
+                            "state" : true,
+                            "link" : "#ryan",
+                            "image" : "http://placehold.it/400x80/c294c3/ffffff"
                         }
                     }
                 }
             },
             {
-                sec : {
-                    id : 3,
-                    bgImg : 'img/heart.jpg',
-                    title : '3D Printing',
-                    attribution : '',
-                    friendlyUrl : '3d-printing',
-                    subSlideUrl : '1',
-                    nextSlide : 'lastest-on-obesity',
-                    description : 'Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.',
-                    data : {
-                        title : 'Lorem Ipsum Presents',
-                        content : '<div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div></div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <blockquote>"Lorem ipsum dolor sit amet, consectetur adipisicing elit."</blockquote> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div><img src="img/article-slideshow.jpg" style="width:100%;margin-bottom: 35px;" alt=""> </div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><div class="inner_content"> <div class="right_col top"> <img src="img/poll.jpg" alt=""> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p><img class="video-thumb" src="img/video-thumb.jpg" alt="">Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col bottom"> <img src="http://placehold.it/300x250" alt=""> </div></div>'
+                "sec" : {
+                    "id" : 2,
+                    "bgImg" : "img/TheFutureofHealth_2000x959_01.jpg",
+                    "title" : "Womb Transplant",
+                    "attribution" : "",
+                    "friendlyUrl" : "womb-transplant",
+                    "subSlideUrl" : "1",
+                    "nextSlide" : "3d-printing",
+                    "description" : "Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.",
+                    "ajaxUrl" : "http://www.preview.webmd.com/zztest/ryan-lu/ajax-page",
+                    "data" : {
+                        "title" : "Lorem Ipsum Presents",
+                        "content" : "hello"
                     },
-                    sponsor : {
-                        btnBar : {
-                            state : false,
-                            link : '#ryan',
-                            image : 'http://placehold.it/150x50'
+                    "sponsor" : {
+                        "btnBar" : {
+                            "state" : true,
+                            "link" : "#ryan",
+                            "image" : "http://placehold.it/150x50"
                         }
                     }
                 }
             },
             {
-                sec : {
-                    id : 4,
-                    bgImg : 'img/obesity.jpg',
-                    title : 'Lastest on Obesity',
-                    attribution : '',
-                    friendlyUrl : 'lastest-on-obesity',
-                    subSlideUrl : '1',
-                    nextSlide : 'wireless-medicine',
-                    description : 'Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.',
-                    data : {
-                        title : 'Lorem Ipsum Presents',
-                        content : '<div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div></div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <blockquote>"Lorem ipsum dolor sit amet, consectetur adipisicing elit."</blockquote> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div><img src="img/article-slideshow.jpg" style="width:100%;margin-bottom: 35px;" alt=""> </div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><div class="inner_content"> <div class="right_col top"> <img src="img/poll.jpg" alt=""> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p><img class="video-thumb" src="img/video-thumb.jpg" alt="">Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col bottom"> <img src="http://placehold.it/300x250" alt=""> </div></div>'
+                "sec" : {
+                    "id" : 3,
+                    "bgImg" : "img/heart.jpg",
+                    "title" : "3D Printing",
+                    "attribution" : "",
+                    "friendlyUrl" : "3d-printing",
+                    "subSlideUrl" : "1",
+                    "nextSlide" : "lastest-on-obesity",
+                    "description" : "Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.",
+                    "ajaxUrl" : "http://www.preview.webmd.com/zztest/ryan-lu/ajax-page",
+                    "data" : {
+                        "title" : "Lorem Ipsum Presents",
+                        "content" : "hello"
                     },
-                    sponsor : {
-                        btnBar : {
-                            state : true,
-                            link : '#ryan',
-                            image : 'http://placehold.it/150x50'
+                    "sponsor" : {
+                        "btnBar" : {
+                            "state" : false,
+                            "link" : "#ryan",
+                            "image" : "http://placehold.it/150x50"
                         }
                     }
                 }
             },
             {
-                sec : {
-                    id : 5,
-                    bgImg : 'img/device.jpg',
-                    title : 'Wireless Medicine',
-                    attribution : '',
-                    friendlyUrl : 'wireless-medicine',
-                    subSlideUrl : '1',
-                    nextSlide : 'advances-in-vision',
-                    description : 'Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.',
-                    data : {
-                        title : 'Lorem Ipsum Presents',
-                        content : '<div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div></div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <blockquote>"Lorem ipsum dolor sit amet, consectetur adipisicing elit."</blockquote> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div><img src="img/article-slideshow.jpg" style="width:100%;margin-bottom: 35px;" alt=""> </div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><div class="inner_content"> <div class="right_col top"> <img src="img/poll.jpg" alt=""> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p><img class="video-thumb" src="img/video-thumb.jpg" alt="">Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col bottom"> <img src="http://placehold.it/300x250" alt=""> </div></div>'
+                "sec" : {
+                    "id" : 4,
+                    "bgImg" : "img/obesity.jpg",
+                    "title" : "Lastest on Obesity",
+                    "attribution" : "",
+                    "friendlyUrl" : "lastest-on-obesity",
+                    "subSlideUrl" : "1",
+                    "nextSlide" : "wireless-medicine",
+                    "description" : "Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.",
+                    "ajaxUrl" : "http://www.preview.webmd.com/zztest/ryan-lu/ajax-page",
+                    "data" : {
+                        "title" : "Lorem Ipsum Presents",
+                        "content" : "hello"
                     },
-                    sponsor : {
-                        btnBar : {
-                            state : false,
-                            link : '#ryan',
-                            image : 'http://placehold.it/150x50'
+                    "sponsor" : {
+                        "btnBar" : {
+                            "state" : true,
+                            "link" : "#ryan",
+                            "image" : "http://placehold.it/150x50"
                         }
                     }
                 }
             },
             {
-                sec : {
-                    id : 6,
-                    bgImg : 'img/eye.jpg',
-                    title : 'Advances in Vision',
-                    attribution : '',
-                    friendlyUrl : 'advances-in-vision',
-                    subSlideUrl : '1',
-                    nextSlide : '',
-                    description : 'Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.',
-                    data : {
-                        title : 'Lorem Ipsum Presents',
-                        content : '<div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div></div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <blockquote>"Lorem ipsum dolor sit amet, consectetur adipisicing elit."</blockquote> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col top"> <img src="http://placehold.it/300x250" alt=""> </div><img src="img/article-slideshow.jpg" style="width:100%;margin-bottom: 35px;" alt=""> </div><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><div class="inner_content"> <div class="right_col top"> <img src="img/poll.jpg" alt=""> </div></div><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p><img class="video-thumb" src="img/video-thumb.jpg" alt="">Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue sed magna vitae scelerisque. Suspendisse molestie lacinia viverra. Vestibulum ullamcorper tincidunt justo, sed convallis lorem interdum in. Quisque in arcu urna. Proin commodo placerat metus quis volutpat. Proin ornare molestie viverra. Donec bibendum pharetra orci cursus congue.</p><p>Aliquam quis orci eget quam gravida suscipit sed pharetra turpis. Phasellus maximus molestie enim, tempus volutpat nisl malesuada eget. Curabitur at luctus eros. Integer non semper velit, nec fermentum enim. Sed vitae lectus consequat, ultrices massa sit amet, semper elit. Curabitur imperdiet gravida dui, ut scelerisque augue tincidunt vitae. Nunc dui libero, pretium id euismod nec, elementum vel ante. Aliquam sollicitudin eros sit amet quam eleifend eleifend. Suspendisse tempor semper nunc id malesuada. Maecenas luctus tellus leo, id tristique enim consectetur at. Nullam et auctor nulla.</p><div class="inner_content"> <div class="right_col bottom"> <img src="http://placehold.it/300x250" alt=""> </div></div>'
+                "sec" : {
+                    "id" : 5,
+                    "bgImg" : "img/device.jpg",
+                    "title" : "Wireless Medicine",
+                    "attribution" : "",
+                    "friendlyUrl" : "wireless-medicine",
+                    "subSlideUrl" : "1",
+                    "nextSlide" : "advances-in-vision",
+                    "description" : "Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.",
+                    "ajaxUrl" : "http://www.preview.webmd.com/zztest/ryan-lu/ajax-page",
+                    "data" : {
+                        "title" : "Lorem Ipsum Presents",
+                        "content" : "hello"
                     },
-                    sponsor : {
-                        btnBar : {
-                            state : true,
-                            link : '#ryan',
-                            image : 'http://placehold.it/150x50'
+                    "sponsor" : {
+                        "btnBar" : {
+                            "state" : false,
+                            "link" : "#ryan",
+                            "image" : "http://placehold.it/150x50"
+                        }
+                    }
+                }
+            },
+            {
+                "sec" : {
+                    "id" : 6,
+                    "bgImg" : "img/eye.jpg",
+                    "title" : "Advances in Vision",
+                    "attribution" : "",
+                    "friendlyUrl" : "advances-in-vision",
+                    "subSlideUrl" : "1",
+                    "nextSlide" : "",
+                    "description" : "Lorem ipsum dolor sit amet, liber propriae similique vix in, porro scripserit inciderint no mei. Sea at feugait praesent. His in consul oblique, vix quot regione efficiantur cu. Commune lucilius repudiandae no sea, quem delenit nam eu. Eum no odio tollit temporibus.",
+                    "ajaxUrl" : "http://www.preview.webmd.com/zztest/ryan-lu/ajax-page",
+                    "data" : {
+                        "title" : "Lorem Ipsum Presents",
+                        "content" : "hello"
+                    },
+                    "sponsor" : {
+                        "btnBar" : {
+                            "state" : true,
+                            "link" : "#ryan",
+                            "image" : "http://placehold.it/150x50"
                         }
                     }
                 }
@@ -267,131 +236,5 @@
         ];
     }]);
     </script>
-    <!-- Future Of Health - Start -->
-    <div id="foh" ng-app="fohApp" ng-controller="fohCTRL">
-
-        <!-- Left Column - Start -->
-        <div class="left-col">
-            <header class="site_header">
-                <div class="masthead clearfix">
-                    <!-- <div class="back_to_reffer">
-                        <a href="#">
-                            <i class="fa fa-angle-left"></i> Back to reffering page.
-                        </a>
-                    </div>
-                    <div class="social">
-                        <i class="fa fa-facebook"></i>
-                        <i class="fa fa-twitter"></i>
-                        <i class="fa fa-pinterest"></i>
-                    </div> -->
-                    <a href="#future-of-health" class="logo" title="WebMD">
-                        <span class="logo_holder">WebMD</span>
-                    </a>
-                </div>
-            </header>
-            <div class="nav_menu">
-                <nav class="nav">
-                    <ul id="menu" class="menu clearfix">
-                        <li ng-repeat="foh in fohs" data-menuanchor="{{foh.sec.friendlyUrl}}" class="nav_{{$index + 1}}">
-                            <a href="#{{foh.sec.friendlyUrl}}">
-                                <!-- <i ng-if="foh.sec.id == 1" class="fa fa-home"></i> -->
-                                {{foh.sec.title}}
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div ng-if="false" class="sponsor left">
-                <span>Brought to you by</span>
-                <img src="http://placehold.it/250x150" alt="">
-            </div>
-            <div class="copyright">
-                <p>&copy;2005-2014 WebMD, LLC. All rights reserved.<br/>WebMD does not provide<br/> medical advice, diagnosis or treatment.<br/><a href="http://www.webmd.com/www/policies/additional-info?ss=ftr" target="_blank">See additional information</a>.</p>
-            </div>
-        </div>
-        <!-- Left Column - End -->
-
-        <!-- Righ Column - Start -->
-        <div class="right-col">
-            <div class="section_wrap" full-page="">
-
-                <!-- Section Promo - Start -->
-                <section id="sec_1" class="content sec_1 pl" back-img="{{fohs[0].sec.bgImg}}">
-                    <div class="container clearfix">
-                        <div class="promo_text">
-                            <h2>{{fohs[0].sec.title}}</h2>
-                            <span class="attr">with {{fohs[0].sec.attribution}}</span>
-                            <span class="spacer"></span>
-                            <p>{{fohs[0].sec.description}}</p>
-                        </div>
-                        <div class="btm_arw">
-                            <a href="#{{fohs[1].sec.friendlyUrl}}" class="arw_btn">
-                                <i class="fa fa-chevron-circle-down"></i>
-                            </a>
-                        </div>
-                    </div>
-                </section>
-                <!-- Section Promo - End -->
-
-                <!-- Section Template - Start -->
-                <section ng-repeat="foh in fohs" ng-if="foh.sec.id != 1" id="sec_{{$index + 1}}" class="content sec_{{$index + 1}}" back-img="{{foh.sec.bgImg}}">
-                    <div class="slide" id="slide{{$index + 1}}">
-                        <div class="container clearfix">
-                            <div class="toc_content">
-                                <h3>{{foh.sec.title}}</h3>
-                                <p>{{foh.sec.description}}</p>
-                                <div class="art_btn">
-                                    <a href="#{{foh.sec.friendlyUrl}}/{{foh.sec.subSlideUrl}}" class="arw_btn read-more hide-left-trigger">
-                                        <i class="fa fa-chevron-circle-right"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide sub_slide" data-anchor="{{foh.sec.subSlideUrl}}" id="slide{{$index + 1}}">
-                        <div class="btn_bar clearfix">
-                            <div class="sponsor bar clearfix">
-                                <a class="arw_btn read-less show-left-trigger" href="#{{foh.sec.friendlyUrl}}">
-                                    <i class="fa fa-chevron-circle-left"></i>
-                                </a>
-                                <div class="fr" ng-if="foh.sec.sponsor.btnBar.state">
-                                    <span>Brought to you by</span>
-                                    <a href="{{foh.sec.sponsor.btnBar.link}}">
-                                        <img ng-src="{{foh.sec.sponsor.btnBar.image}}" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container article clearfix">
-                            <article>
-                                <div class="banner_ad">
-                                    <img src="http://placehold.it/728x90" alt="">
-                                </div>
-                                <header class="title_bar">
-                                    <h1>{{foh.sec.data.title}}</h1>
-                                </header>
-                                <div class="art_full_col">
-                                    <img src="img/slideshow.jpg" alt="" style="width: 100%">
-                                </div>
-                                <div class="art_content clearfix" ng-bind-html="foh.sec.data.content | unsafe"></div>
-                                <footer ng-if="foh.sec.id != 6">
-                                    <a class="arw_btn next-section show-left-trigger" href="#{{foh.sec.nextSlide}}">
-                                        <span>Next: {{foh.sec.nextSlide}}</span>
-                                        <i class="fa fa-chevron-circle-down"></i>
-                                    </a>
-                                </footer>
-                            </article>
-                        </div>
-                    </div>
-                </section>
-                <!-- Section Template - End -->
-
-            </div>
-        </div>
-        <!-- Right Column - End -->
-
-    </div>
-    <!-- Future Of Health - End -->
-
 </body>
 </html>
