@@ -21,6 +21,7 @@ ryanklu.url = {
 
 		_object.submitBtn.click(function(){
 			_self._generateUrl();
+			alert('Don\'t forget to donate below!!');
 		});
 		_object.input.keypress(function (e) {
 			if (e.which == 13) {
