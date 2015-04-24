@@ -107,4 +107,6 @@ ryanklu.url = {
 	}
 
 };
-ryanklu.url.init();
+$(function() {
+	ryanklu.url.init();
+});
