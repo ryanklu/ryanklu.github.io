@@ -6359,7 +6359,7 @@ var webmdCachebuster = "1";
 require.config({
     urlArgs: "",
     waitSeconds: 30,
-    baseUrl: (window.image_server_url || "") + "/webmd/consumer_assets/site_images/amd_modules/"
+    baseUrl: "https://img.webmd.com/dtmcms/live/webmd/consumer_assets/site_images/amd_modules/"
 }), /* ! Require-CSS RequireJS css! loader plugin
  * Guy Bedford 2013
  * MIT
