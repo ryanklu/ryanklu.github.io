@@ -4859,49 +4859,7 @@ function(window, undefined) {
     }();
 }(jQuery);
 
-var webmd = webmd || {}, moat = {
-    // load a script tag
-    loadScript: function(tagSrc) {
-        if ("http" !== tagSrc.substr(0, 4)) {
-            var isSSL = !0;
-            tagSrc = (isSSL ? "https:" : "http:") + tagSrc;
-        }
-        var scriptTag = document.createElement("script"), placeTag = document.getElementsByTagName("script")[0];
-        scriptTag.type = "text/javascript", scriptTag.src = tagSrc, scriptTag.async = !0, 
-        placeTag.parentNode.insertBefore(scriptTag, placeTag);
-    },
-    loadMoatAd: function() {
-        // After 1 second of waiting, immediately request ads
-        function moatTimeoutHandler() {
-            webmd.debug("moat failed to load with in time"), window.moatYieldReady = !1;
-        }
-        try {
-            var moatTimeoutRequestAds, moatTimeout = 1e3;
-            /*
-      * The Moat JavaScript tag implemented in Step 1 searches for 'moatYieldReady
-      ' on the window.
-      * As soon as Viewability, Invalid Traffic, and Brand Safety data is availabl
-      e, it executes this callback.
-      * This would run if Moat has the data before the timeout.
-      */
-            window.moatYieldReady = function() {
-                clearTimeout(moatTimeoutRequestAds), window.moatPrebidApi.setMoatTargetingForAllSlots(), 
-                webmd.debug("moat ad targetting has been set up");
-            }, moatTimeoutRequestAds = setTimeout(moatTimeoutHandler, moatTimeout);
-        } catch (e) {}
-    }
-};
 
-moat.loadScript("//z.moatads.com/webmdheader894912230343/moatheader.js"), // initialize the third party service namepace, command queue and promises queue
-webmd.tpsvc = webmd.tpsvc || {}, // The ads code will execute every command inside this queue before an ad request is made
-webmd.tpsvc.cmds = webmd.tpsvc.cmds || [], function() {
-    // if in iframe or video article, exit immediately;
-    window.top === window.self && /*
-   * queue the moat  request.
-   * This will be executed in the future, just before the webmd ad request is made
-   */
-    webmd.tpsvc.cmds.push(moat.loadMoatAd.bind(moat));
-}();
 
 /*! webmd.core */
 // REQUIRES: jquery.js, jquery.xLazyLoader.js
