@@ -12276,6 +12276,158 @@ webmd.cookie.cleanup = function() {
 }, // Run on document ready
 $(function() {
     webmd.cookie && (webmd.cookie.trackCookies(), webmd.cookie.cleanup());
+}), /*! webmd.mediaNet */
+/*
+ * Handler for media.net tags placement on core WebMD site
+ * @requires jQuery
+ *
+ * https://confluence.webmd.net/display/CPM/Media.net+Implementation
+ * https://confluence.webmd.net/download/attachments/14713870/Medianet%20-%20Integration%20Guide.pdf?api=v2
+ */
+function() {
+    var isSSL = "https:" === document.location.protocol, propProgram = window.s_sponsor_program || "", propBrand = window.s_sponsor_brand || "", geo = window.s_geo || "", corporateSites = [ "WebMD Policy", "Política de WebMD", "WebMD Corporate", "WebMD Press Release" ], sensitive = window.s_sensitive || "";
+    // allow other code to disable the beacon
+    // allow other code to disable the beacon
+    // if in iframe, exit;
+    // exclude from member pages
+    // if we are inside the webmd app, disable lotame
+    // only run this if the article is not funded and not sensitive
+    // Remove MediaNet Unit from Corporate Pages on WebMD - PPE-158687
+    return window._mNHandle = window._mNHandle || {}, window._mNHandle.queue = window._mNHandle.queue || [], 
+    window.medianet_versionId = "121199", webmd.beaconDisable ? (webmd.debug("Media.net beacon not fired due to beaconDisable."), 
+    !1) : window.top !== window.self ? (webmd.debug("Media.net Ads not fired in iframe."), 
+    !1) : window.location.host.indexOf("member") > -1 ? (webmd.debug("Media.net not fired for member pages"), 
+    !1) : webmd.useragent.ua.appview ? (webmd.debug("Media.net not fired within webmd mobile apps."), 
+    !1) : "true" === sensitive || propBrand || propProgram || geo ? !1 : corporateSites.indexOf(window.s_publication_source) > -1 ? !1 : (window.top !== window.self || "undefined" != typeof window.advBidxc && window.advBidxc.isLoaded || webmd.load({
+        js: "//contextual.media.net/dmedianet.js?cid=8CUU54RQD" + (isSSL ? "&https=1" : "")
+    }), void (webmd.medianet = function() {
+        var /**
+		 * config object for medianet placements
+		 * @private
+		 */
+        _placements = {}, /**
+		 * Return keys for an object.
+		 * Object.keys() does not work in IE8.
+		 *
+		 * @private
+		 * @param Object obj - A dictionary object to return keys for
+		 * @return {array} An array of object keys
+		 */
+        _keys = function(obj) {
+            var arr = [];
+            return obj = obj || {}, $.each(obj, function(index, value) {
+                arr.push(index);
+            }), arr;
+        };
+        // public interface
+        return {
+            /*
+			 * show the medianet unit.
+			 * @return {void}
+			 */
+            showPlacements: function() {
+                var $node, container, mediaNetContainer, asset = this.getAsset(), layout = this.getLayout(), placement = this.getPlacement(asset), $medianet = $(".medianet-ctr"), seoTest = webmd.articleConfig && webmd.articleConfig.seo && Array.isArray(webmd.articleConfig.seo.centerId) && webmd.articleConfig.seo.centerId.indexOf(window.center_id) > -1 && Array.isArray(webmd.articleConfig.seo.busRef) && webmd.articleConfig.seo.busRef.indexOf(window.s_business_reference) > -1;
+                // if there is no media.net configuration for this layout, exit
+                if (!placement[layout]) return !1;
+                // suppression of ads on article which matches articleConfig setting with cenetrID or businessReference
+                if (seoTest) return !1;
+                // if the medianet div is not already on the page, insert it
+                $medianet.length || (container = placement[layout].container, // if we have a list of container options indictating where to place this unit,
+                // go through the list till we find a matching element on the page.
+                $.isArray(container) ? $.each(container, function(key, value) {
+                    return $node = $(value), $node.length ? !1 : void 0;
+                }) : $node = $(container), $node.length && (placement[layout].position ? $node.after('<div class="medianet-ctr"></div>') : $node.before('<div class="medianet-ctr"></div>'), 
+                $medianet = $(".medianet-ctr"))), // need to do this in order to prevent multiple placements appearing.
+                $medianet.empty();
+                try {
+                    mediaNetContainer = placement[layout], $medianet.attr("id", mediaNetContainer.id), 
+                    window._mNHandle.queue.push(function() {
+                        window._mNDetails.loadTag(mediaNetContainer.id, mediaNetContainer.size, mediaNetContainer.id);
+                    }), // save the placement parameters for later if we need to refresh the unit
+                    this._refreshParams = [ mediaNetContainer.id, mediaNetContainer.size, mediaNetContainer.id ], 
+                    // cache the placement div
+                    this.container = $medianet;
+                } catch (e) {}
+            },
+            /**
+			 * get config object for medianet tag placements via our proxy API to workaround cross domain restrictions
+			 *
+			 * @return {void}
+			 */
+            getPlacements: function() {
+                var self = this, url = window.image_server_url + "/webmd/PageBuilder_Assets/JS_static/medianet/config.js";
+                "https:" === window.location.protocol && (url = url.replace(/http:/gi, "https:")), 
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: window.location.protocol + "//" + window.location.host + "/api/proxy/proxy.aspx?url=" + url,
+                    success: function(data) {
+                        try {
+                            /**
+							 * A collection of placement config objects that store details for
+							 * medianet tag placement on the page based on the asset and layout type.
+							 *
+							 * @param placement.container {String} A class name or ID indicating where the tag appears on the page relative to the container.
+							 * @param placement.id {String} The ID of the medianet placement unit.
+							 * @param placement.size {String} The dimension of the medianet unit when it is rendered on the page.
+							 * @param placement.position {boloean} A flag indicating whether the unit should be placed below (true) or above (false | undefined) the container.
+							 */
+                            _placements = data;
+                        } catch (e) {
+                            webmd.debug("===== MEDIA.NET CONFIG ERROR ====");
+                        }
+                        self.showPlacements();
+                    },
+                    error: function(xhr, status, error) {
+                        webmd.debug("FAILED TO GET MEDIA.NET PLACEMENT CONFIG: " + error);
+                    }
+                });
+            },
+            /**
+			 * get a placement based on asset type i.e slideshow, video, quiz, article..
+			 *
+			 * @param {String} asset The asset for which you want the placement config for.
+			 * @return {object}
+			 */
+            getPlacement: function(asset) {
+                return "undefined" != typeof asset && _placements[asset] ? _placements[asset] || !1 : !1;
+            },
+            /**
+			 * get placement asset type based on s_vars
+			 *
+			 * quiz, slideshows, video assets will be identified using s_package_type variable.
+			 * everything else is considered a 'regular article'.
+			 * @return {String}
+			 */
+            getAsset: function() {
+                var keys = _keys(_placements), asset = "article", packageType = window.s_package_type || "", businessRef = window.s_business_reference || "";
+                // check package type and business reference to determine asset type
+                return $.each(keys, function(index, asset_name) {
+                    return packageType.indexOf(asset_name) > -1 || businessRef.toLowerCase().indexOf(asset_name) > -1 ? (asset = asset_name, 
+                    !1) : void 0;
+                }), asset;
+            },
+            /**
+			 * determine the layout type i.e harmony, medref, legacy..
+			 * @return {String} The layout type.
+			 */
+            getLayout: function() {
+                var layout = "flexible", // setting default layout-type to flexible
+                $elHtml = $("html");
+                return $elHtml.hasClass("responsive") ? layout = "responsive" : $elHtml.hasClass("harmony") ? layout = "harmony" : $elHtml.hasClass("site-modernization") ? layout = "site-modernization" : $elHtml.hasClass("legacy") ? layout = "legacy" : $elHtml.hasClass("ua_type_mobile") && (layout = "mobile"), 
+                layout;
+            },
+            /*
+			 * refresh the medianet placement.
+			 * This will only refresh a unit that exists on the page. you can't refresh 'nothing'
+			 */
+            refresh: function() {
+                "container" in this && (this.container.empty(), window._mNDetails.loadTag.apply(null, this._refreshParams || []));
+            }
+        };
+    }()));
+}(), $(function() {
+    webmd.medianet && webmd.medianet.getPlacements();
 }), /*!
  * webmd.medscape - target and flight medscape ads to users on WebMD identified as medscape users.
  * https://confluence.webmd.net/pages/viewpage.action?spaceKey=ProfessionalDev&title=Target+medscape+users+on+webmd.com
