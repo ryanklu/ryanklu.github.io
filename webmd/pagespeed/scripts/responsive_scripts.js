@@ -12427,7 +12427,7 @@ function() {
         };
     }()));
 }(), $(function() {
-    webmd.medianet && webmd.medianet.getPlacements();
+    //webmd.medianet && webmd.medianet.getPlacements();
 }), /*!
  * webmd.medscape - target and flight medscape ads to users on WebMD identified as medscape users.
  * https://confluence.webmd.net/pages/viewpage.action?spaceKey=ProfessionalDev&title=Target+medscape+users+on+webmd.com
