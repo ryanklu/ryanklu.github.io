@@ -38,6 +38,7 @@
       display: flex;
       align-items: center;
       gap: 1rem;
+      flex-shrink: 0;
     }
 
     .logo img {
@@ -50,6 +51,65 @@
       /* font-weight: 600; */
       color: #fff;
       letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .header-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      max-width: 50%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      header {
+        padding: 0.75rem 1rem;
+      }
+
+      .logo img {
+        height: 24px;
+      }
+
+      .shorts-text {
+        font-size: 16px;
+      }
+
+      .header-title {
+        font-size: 14px;
+        max-width: 40%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+      }
+
+      .logo {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .header-title {
+        position: static;
+        transform: none;
+        font-size: 14px;
+        max-width: 100%;
+        text-align: left;
+        white-space: normal;
+        line-height: 1.3;
+      }
     }
 
     /* Video Container */
@@ -61,6 +121,13 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
+    }
+
+    @media (max-width: 480px) {
+      #videoContainer {
+        margin-top: 80px;
+        height: calc(100vh - 80px);
+      }
     }
 
     #videoContainer::-webkit-scrollbar {
@@ -76,6 +143,12 @@
       align-items: center;
       justify-content: center;
       position: relative;
+    }
+
+    @media (max-width: 480px) {
+      .video-slide, .ad-slide {
+        height: calc(100vh - 80px);
+      }
     }
 
     .video-wrapper {
@@ -98,6 +171,47 @@
       justify-content: center;
       border-radius: 20px;
       overflow: hidden;
+    }
+
+    /* Initial Play Button */
+    .initial-play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 15;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .initial-play-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+      transform: translate(-50%, -50%) scale(1.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    .initial-play-button:active {
+      transform: translate(-50%, -50%) scale(0.95);
+    }
+
+    .initial-play-button svg {
+      width: 36px;
+      height: 36px;
+      fill: #ffffff;
+      margin-left: 4px;
+    }
+
+    .initial-play-button.hidden {
+      display: none;
     }
 
     /* Ad Container */
@@ -295,6 +409,12 @@
       gap: 0.5rem;
     }
 
+    @media (max-width: 480px) {
+      .progress-indicators {
+        top: 96px;
+      }
+    }
+
     .progress-dot {
       width: 4px;
       height: 32px;
@@ -349,6 +469,8 @@
       <img src="https://img.wbmdstatic.com/vim/live/webmd/consumer_assets/site_images/logos/webmd/web/webmd_logo_white.svg" alt="WebMD">
       <span class="shorts-text">Shorts</span>
     </div>
+    <h1 class="header-title">10 Ways You're Drinking Water Wrong</h1>
+    <div style="width: 1px;"></div> <!-- Spacer for flexbox balance -->
   </header>
 
   <!-- Video Container -->
@@ -452,10 +574,12 @@
 
     let currentVideoIndex = 0;
     let currentSlideIndex = 0;
-    let isMuted = true; // Start with all videos muted
-    let hasAutoplayStarted = false;
+    let isMuted = true; // Start muted
+    let userHasStartedPlayback = false; // Track if user clicked play
+    let globalPauseState = false; // Track if user manually paused - affects all videos
     const videoElements = [];
     const muteButtons = [];
+    const playButtons = [];
     const descriptionElements = [];
     const toggleButtons = [];
     const infoElements = [];
@@ -497,7 +621,7 @@
       return element.scrollHeight > element.clientHeight;
     }
 
-    // Toggle mute for specific video - now affects all future videos
+    // Toggle mute for specific video
     function toggleMute(videoIndex) {
       const video = videoElements[videoIndex];
       const button = muteButtons[videoIndex];
@@ -514,19 +638,41 @@
       console.log(isMuted ? '🔇 All videos muted' : '🔊 All videos unmuted');
     }
 
-    // Toggle play/pause for video
+    // Toggle play/pause for video - now affects global state
     function togglePlayPause(videoIndex) {
       const video = videoElements[videoIndex];
       const indicator = playPauseIndicators[videoIndex];
       
       if (video.paused) {
+        // User clicked play - resume autoplay for all videos
+        globalPauseState = false;
         video.play();
         videoPausedStates[videoIndex] = false;
         showIndicator(indicator, playIcon);
+        
+        // Hide all play buttons when resuming
+        playButtons.forEach(btn => {
+          if (btn) {
+            btn.classList.add('hidden');
+          }
+        });
+        
+        console.log('▶️ Autoplay resumed - all videos will autoplay');
       } else {
+        // User clicked pause - pause all future videos
+        globalPauseState = true;
         video.pause();
         videoPausedStates[videoIndex] = true;
         showIndicator(indicator, pauseIcon);
+        
+        // Show all play buttons when pausing
+        playButtons.forEach(btn => {
+          if (btn) {
+            btn.classList.remove('hidden');
+          }
+        });
+        
+        console.log('⏸️ Global pause activated - all videos will stay paused, play buttons shown');
       }
     }
 
@@ -668,6 +814,37 @@
       return slide;
     }
 
+    // Handle play button click on any video
+    function handlePlayClick(videoIndex) {
+      if (!userHasStartedPlayback) {
+        userHasStartedPlayback = true;
+        isMuted = false; // Unmute all videos
+        
+        // Update all mute buttons
+        muteButtons.forEach(btn => {
+          btn.innerHTML = volumeOnIcon;
+        });
+        
+        console.log('🎬 User started playback - all play buttons removed, videos will autoplay unmuted');
+      }
+      
+      // Resume autoplay if it was paused
+      globalPauseState = false;
+      
+      // Hide ALL play buttons when clicking play
+      playButtons.forEach(btn => {
+        if (btn) {
+          btn.classList.add('hidden');
+        }
+      });
+      
+      // Start playing the video
+      const video = videoElements[videoIndex];
+      video.muted = isMuted;
+      video.play();
+      videoPausedStates[videoIndex] = false;
+    }
+
     // Create video slides with ads inserted
     let slideIndex = 0;
     let adCounter = 1;
@@ -689,15 +866,13 @@
       
       const videoEl = document.createElement('video');
       videoEl.playsInline = true;
-      videoEl.muted = true; // ALL videos start muted
+      videoEl.muted = true; // Start muted
       videoEl.loop = false;
-      videoEl.poster = `/api/placeholder/400/711`;
+      videoEl.preload = 'metadata'; // Preload video metadata and first frame
       
-      // First video gets autoplay
+      // For first video, preload more data to show the video
       if (videoIndex === 0) {
-        videoEl.autoplay = true;
-        videoEl.setAttribute('playsinline', '');
-        videoEl.setAttribute('webkit-playsinline', '');
+        videoEl.preload = 'auto';
       }
       
       const source = document.createElement('source');
@@ -707,13 +882,23 @@
       
       videoElements.push(videoEl);
       
+      // Load the first frame
+      videoEl.addEventListener('loadeddata', () => {
+        videoEl.currentTime = 0;
+      }, { once: true });
+      
       videoEl.addEventListener('click', (e) => {
         e.stopPropagation();
-        togglePlayPause(videoIndex);
+        if (!userHasStartedPlayback || videoEl.paused) {
+          handlePlayClick(videoIndex);
+        } else {
+          togglePlayPause(videoIndex);
+        }
       });
       
       videoEl.addEventListener('ended', () => {
-        if (!videoPausedStates[videoIndex]) {
+        // Only auto-advance if not globally paused
+        if (!globalPauseState && !videoPausedStates[videoIndex]) {
           const currentSlide = videoToSlideMap[videoIndex];
           scrollToSlide(currentSlide + 1);
         }
@@ -725,12 +910,22 @@
       
       const muteBtn = document.createElement('button');
       muteBtn.className = 'mute-button';
-      muteBtn.innerHTML = volumeOffIcon; // Show muted icon by default
+      muteBtn.innerHTML = volumeOffIcon;
       muteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleMute(videoIndex);
       });
       muteButtons.push(muteBtn);
+      
+      // Create play button for ALL videos
+      const playButton = document.createElement('button');
+      playButton.className = 'initial-play-button';
+      playButton.innerHTML = playIcon;
+      playButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        handlePlayClick(videoIndex);
+      });
+      playButtons.push(playButton);
       
       const overlay = document.createElement('div');
       overlay.className = 'video-info';
@@ -766,6 +961,7 @@
       }, 100);
       
       videoContainer.appendChild(videoEl);
+      videoContainer.appendChild(playButton);
       videoContainer.appendChild(indicator);
       videoContainer.appendChild(muteBtn);
       videoContainer.appendChild(overlay);
@@ -848,11 +1044,17 @@
         const dots = progressContainer.children;
         
         if (videoIndex === currentVideoIndex) {
-          // Apply current global mute state to the video before playing
-          video.muted = isMuted;
-          video.play().catch(e => console.log('Play error:', e));
-          videoPausedStates[videoIndex] = false;
-          dots[videoIndex].classList.add('active');
+          // Only autoplay if user has started playback AND not globally paused
+          if (userHasStartedPlayback && !globalPauseState) {
+            video.muted = isMuted;
+            video.play().catch(e => console.log('Play error:', e));
+            videoPausedStates[videoIndex] = false;
+            dots[videoIndex].classList.add('active');
+          } else if (userHasStartedPlayback && globalPauseState) {
+            // User has paused - keep video paused
+            video.pause();
+            dots[videoIndex].classList.add('active');
+          }
         } else {
           video.pause();
           video.currentTime = 0;
@@ -860,62 +1062,6 @@
         }
       });
     }
-
-    // Aggressive autoplay function for first video
-    function forceFirstVideoAutoplay() {
-      if (!hasAutoplayStarted && videoElements.length > 0) {
-        const firstVideo = videoElements[0];
-        
-        // Reset to beginning and ensure muted
-        firstVideo.currentTime = 0;
-        firstVideo.muted = true;
-        
-        // Try to play
-        const playPromise = firstVideo.play();
-        
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            hasAutoplayStarted = true;
-            console.log('✓ First video autoplay successful (muted)');
-          }).catch(error => {
-            console.log('⚠ Autoplay blocked, retrying...', error);
-            // Retry after short delay
-            setTimeout(() => {
-              firstVideo.play().catch(e => console.log('Retry failed'));
-            }, 200);
-          });
-        }
-      }
-    }
-
-    // Initialize autoplay on page load/refresh
-    window.addEventListener('load', () => {
-      console.log('Page loaded - starting autoplay');
-      setTimeout(forceFirstVideoAutoplay, 50);
-      setTimeout(forceFirstVideoAutoplay, 200);
-      setTimeout(forceFirstVideoAutoplay, 500);
-    });
-
-    // Also try on DOMContentLoaded
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        console.log('DOM ready - starting autoplay');
-        setTimeout(forceFirstVideoAutoplay, 50);
-      });
-    } else {
-      setTimeout(forceFirstVideoAutoplay, 50);
-    }
-
-    // Fallback: Start on any user interaction
-    const startOnInteraction = (e) => {
-      if (!hasAutoplayStarted) {
-        forceFirstVideoAutoplay();
-      }
-    };
-    
-    ['click', 'touchstart', 'touchend', 'scroll', 'keydown'].forEach(eventType => {
-      document.addEventListener(eventType, startOnInteraction, { once: true, passive: true });
-    });
   </script>
 </body>
 </html>
