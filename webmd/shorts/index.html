@@ -452,7 +452,7 @@
 
     let currentVideoIndex = 0;
     let currentSlideIndex = 0;
-    let isMuted = false;
+    let isMuted = true; // Start with all videos muted
     let hasAutoplayStarted = false;
     const videoElements = [];
     const muteButtons = [];
@@ -497,20 +497,21 @@
       return element.scrollHeight > element.clientHeight;
     }
 
-    // Toggle mute for specific video
+    // Toggle mute for specific video - now affects all future videos
     function toggleMute(videoIndex) {
       const video = videoElements[videoIndex];
       const button = muteButtons[videoIndex];
       
-      video.muted = !video.muted;
-      isMuted = video.muted;
+      // Toggle the global mute state
+      isMuted = !isMuted;
       
-      button.innerHTML = video.muted ? volumeOffIcon : volumeOnIcon;
-      
+      // Apply to all videos
       videoElements.forEach((v, i) => {
         v.muted = isMuted;
         muteButtons[i].innerHTML = isMuted ? volumeOffIcon : volumeOnIcon;
       });
+      
+      console.log(isMuted ? '🔇 All videos muted' : '🔊 All videos unmuted');
     }
 
     // Toggle play/pause for video
@@ -688,17 +689,15 @@
       
       const videoEl = document.createElement('video');
       videoEl.playsInline = true;
+      videoEl.muted = true; // ALL videos start muted
       videoEl.loop = false;
       videoEl.poster = `/api/placeholder/400/711`;
       
-      // First video gets special autoplay handling
+      // First video gets autoplay
       if (videoIndex === 0) {
         videoEl.autoplay = true;
-        videoEl.muted = true; // Start muted to ensure autoplay works
         videoEl.setAttribute('playsinline', '');
         videoEl.setAttribute('webkit-playsinline', '');
-      } else {
-        videoEl.muted = false;
       }
       
       const source = document.createElement('source');
@@ -720,32 +719,13 @@
         }
       });
       
-      // Auto-unmute first video after it starts playing
-      if (videoIndex === 0) {
-        let hasUnmuted = false;
-        const unmuteHandler = () => {
-          if (!hasUnmuted) {
-            hasUnmuted = true;
-            setTimeout(() => {
-              videoEl.muted = false;
-              muteButtons[0].innerHTML = volumeOnIcon;
-              isMuted = false;
-              console.log('First video unmuted after autoplay');
-            }, 150);
-          }
-        };
-        
-        videoEl.addEventListener('playing', unmuteHandler);
-        videoEl.addEventListener('play', unmuteHandler);
-      }
-      
       const indicator = document.createElement('div');
       indicator.className = 'play-pause-indicator';
       playPauseIndicators.push(indicator);
       
       const muteBtn = document.createElement('button');
       muteBtn.className = 'mute-button';
-      muteBtn.innerHTML = (videoIndex === 0) ? volumeOffIcon : volumeOnIcon;
+      muteBtn.innerHTML = volumeOffIcon; // Show muted icon by default
       muteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleMute(videoIndex);
@@ -868,6 +848,8 @@
         const dots = progressContainer.children;
         
         if (videoIndex === currentVideoIndex) {
+          // Apply current global mute state to the video before playing
+          video.muted = isMuted;
           video.play().catch(e => console.log('Play error:', e));
           videoPausedStates[videoIndex] = false;
           dots[videoIndex].classList.add('active');
@@ -884,8 +866,9 @@
       if (!hasAutoplayStarted && videoElements.length > 0) {
         const firstVideo = videoElements[0];
         
-        // Reset to beginning
+        // Reset to beginning and ensure muted
         firstVideo.currentTime = 0;
+        firstVideo.muted = true;
         
         // Try to play
         const playPromise = firstVideo.play();
@@ -893,7 +876,7 @@
         if (playPromise !== undefined) {
           playPromise.then(() => {
             hasAutoplayStarted = true;
-            console.log('✓ First video autoplay successful');
+            console.log('✓ First video autoplay successful (muted)');
           }).catch(error => {
             console.log('⚠ Autoplay blocked, retrying...', error);
             // Retry after short delay
