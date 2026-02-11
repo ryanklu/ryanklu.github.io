@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebMD Shorts</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background-color: #00157c;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo img {
+      height: 28px;
+      width: auto;
+    }
+
+    .shorts-text {
+      font-size: 24px;
+      /* font-weight: 600; */
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+
+    /* Video Container */
+    #videoContainer {
+      margin-top: 64px;
+      height: calc(100vh - 64px);
+      overflow-y: scroll;
+      scroll-snap-type: y mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #videoContainer::-webkit-scrollbar {
+      display: none;
+    }
+
+    .video-slide, .ad-slide {
+      height: calc(100vh - 64px);
+      width: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 448px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      background-color: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    /* Ad Container */
+    .ad-container {
+      position: relative;
+      width: 300px;
+      height: 250px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .ad-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      font-size: 14px;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .ad-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    .ad-size {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    /* Countdown Timer */
+    .countdown-timer {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .countdown-timer svg {
+      transform: rotate(-90deg);
+      width: 48px;
+      height: 48px;
+    }
+
+    .countdown-circle-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.3);
+      stroke-width: 3;
+    }
+
+    .countdown-circle {
+      fill: none;
+      stroke: #fff;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+    .countdown-text {
+      position: absolute;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+    }
+
+    /* Mute Button */
+    .mute-button {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.6);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s, transform 0.1s;
+      z-index: 10;
+    }
+
+    .mute-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+      transform: scale(1.05);
+    }
+
+    .mute-button:active {
+      transform: scale(0.95);
+    }
+
+    .mute-button svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
+    /* Video Info Overlay */
+    .video-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 70%, transparent);
+      border-radius: 0 0 20px 20px;
+      transition: background-color 0.3s;
+      pointer-events: none;
+    }
+
+    .video-info * {
+      pointer-events: auto;
+    }
+
+    .video-info.expanded {
+      background: rgba(0, 0, 0, 0.5);
+      padding-bottom: 2rem;
+    }
+
+    .video-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .video-description {
+      color: #ccc;
+      font-size: 0.875rem;
+      line-height: 1.4;
+      margin-bottom: 0.25rem;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out;
+    }
+
+    .video-description.collapsed {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .video-description.expanded {
+      display: block;
+      -webkit-line-clamp: unset;
+    }
+
+    .toggle-description {
+      color: #0066CC;
+      font-size: 0.875rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 0.25rem;
+      font-weight: 600;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .toggle-description:hover {
+      text-decoration: underline;
+    }
+
+    /* Progress Indicators */
+    .progress-indicators {
+      position: absolute;
+      top: 80px;
+      right: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .progress-dot {
+      width: 4px;
+      height: 32px;
+      background-color: #666;
+      border-radius: 2px;
+      transition: background-color 0.3s;
+    }
+
+    .progress-dot.active {
+      background-color: #fff;
+    }
+
+    /* Play/Pause Indicator */
+    .play-pause-indicator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .play-pause-indicator.show {
+      display: flex;
+      animation: fadeOut 0.5s ease-out forwards;
+    }
+
+    .play-pause-indicator svg {
+      width: 40px;
+      height: 40px;
+      fill: white;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="https://img.wbmdstatic.com/vim/live/webmd/consumer_assets/site_images/logos/webmd/web/webmd_logo_white.svg" alt="WebMD">
+      <span class="shorts-text">Shorts</span>
+    </div>
+  </header>
+
+  <!-- Video Container -->
+  <div id="videoContainer"></div>
+
+  <!-- Progress Indicators -->
+  <div class="progress-indicators" id="progressIndicators"></div>
+
+  <script>
+    // ========================================
+    // CONFIGURATION
+    // ========================================
+    const CONFIG = {
+      // Ad insertion frequency: Show ad after every X videos
+      // Examples: 2 = ad after every 2 videos, 3 = ad after every 3 videos
+      adFrequency: 3,
+      
+      // Ad countdown duration in seconds
+      adCountdownSeconds: 5
+    };
+    // ========================================
+
+    // VIDEO DATA - Replace with your actual video sources
+    const videos = [
+      { 
+        id: 1, 
+        src: 'videos/1.mp4', 
+        title: 'Using Bottles With BPA', 
+        description: 'BPA is short for the chemical bisphenol A. It\'s used to make lots of products, including water bottles. But research shows BPA can get into your food and drinks. There\'s also concern that too much exposure can lead to birth defects. More research is needed, but experts think the chemical might also play a role in some health conditions. These include high blood pressure, hormonal imbalance, type 2 diabetes, and cardiovascular disease. Opt for water bottles that say they\'re BPA-free or made with glass or stainless steel.'
+      },
+      { 
+        id: 2, 
+        src: 'videos/2.mp4', 
+        title: 'Believing the Cold Water Myth', 
+        description: 'Cold water doesn\'t narrow your blood vessels or make food harder to digest. It\'s an easy way to cool down and hydrate when you\'re hot. If you have a cold, warm water will help thin your mucus, but that\'s about it.' 
+      },
+      { 
+        id: 3, 
+        src: 'videos/3.mp4', 
+        title: 'Adding Sliced Fruit or Veggies', 
+        description: 'It may make your water tastier and more refreshing. But if you\'re not careful, it can also fill it with foodborne illness like salmonellaand E.coli. That\'s because when the rind isn\'t clean, slicing into it moves bacteria to the flesh. Fruit and veggies sliced on the same board used to cut raw meat can also lead to foodborne illness. So can items not stored at the right temperature. Be sure to wash or scrub fruits and vegetables under running water.' 
+      },
+      { 
+        id: 4, 
+        src: 'videos/4.mp4', 
+        title: 'Not Drinking It With Alcohol', 
+        description: 'Alcoholic drinks are diuretics, which means they trigger your body to make more pee. And peeing a lot can lead to dehydration. To avoid this, match your drinks one for one: that\'s one glass of water for every cup of coffee or alcoholic drink. ' 
+      },
+      { 
+        id: 5, 
+        src: 'videos/5.mp4', 
+        title: 'Not Downing a Full Glass With Pills', 
+        description: 'Don\'t just drink enough to get them down your throat. Use vitamins and medication as an opportunity to hydrate. Drinking a full glass of water also helps keep medicine from getting stuck in your esophagus and irritating it. It helps your body better absorb water-soluble vitamins, too.' 
+      },
+      { 
+        id: 6, 
+        src: 'videos/6.mp4', 
+        title: 'Adding Anything Artificial', 
+        description: 'It\'s fine once in a while, but doing it every day isn\'t recommended. Research suggests artificial flavorings and sweeteners may put you at higher risk for type 2 diabetes and cancer. They can also make you feel hungry more often. Try to avoid anything with sugar, high fructose corn syrup, aspartame, or sucralose. Use lemon, lime, mint, herbs, or cucumbers instead. But don\'t forget to wash them first.' 
+      },
+      { 
+        id: 7, 
+        src: 'videos/7.mp4', 
+        title: 'Not Reaching for It When Tired', 
+        description: 'Feeling fatigued and don\'t know why? It could be a sign of dehydration. You don\'t have to be sick or exercise hard to get dehydrated. You lose water every day through basic body functions like breathing and pooping.' 
+      },
+      { 
+        id: 8, 
+        src: 'videos/8.mp4', 
+        title: 'Not Taking Your Time', 
+        description: 'A glass or two of water is fine, but don\'t wake up and chug a gallon. There\'s no evidence it kickstarts your metabolism. And you don\'t want to drink a lot before bed and spend all night in the bathroom, either. That disrupts your sleep. Sip slowly throughout the day instead. Experts recommend no more than 1 liter an hour.' 
+      },
+      { 
+        id: 9, 
+        src: 'videos/9.mp4', 
+        title: 'Drinking Out of Rivers or Streams', 
+        description: 'Natural water sources may look clear and clean, but many things can contaminate them. This includes toxic plants, animal pee and poop, and illegal chemical dumping. Treat natural water with filtration tablets or water filters before drinking.' 
+      },
+      { 
+        id: 10, 
+        src: 'videos/10.mp4', 
+        title: 'Not Drinking Enough', 
+        description: 'Your body is mostly water and uses it in many ways. It helps digestion and can ease and ward off constipation or trouble pooping. It also flushes out toxins, stops kidney stones from forming, and hydrates your skin. The recommended minimum daily amount is 11.5 cups for women and 15.5 cups for men.' 
+      },
+    ];
+
+    let currentVideoIndex = 0;
+    let currentSlideIndex = 0;
+    let isMuted = false;
+    const videoElements = [];
+    const muteButtons = [];
+    const descriptionElements = [];
+    const toggleButtons = [];
+    const infoElements = [];
+    const playPauseIndicators = [];
+    const videoPausedStates = [];
+    const slideToVideoMap = {};
+    const videoToSlideMap = {};
+    const adTimers = [];
+    const container = document.getElementById('videoContainer');
+    const progressContainer = document.getElementById('progressIndicators');
+
+    // SVG Icons
+    const volumeOnIcon = `
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+    `;
+
+    const volumeOffIcon = `
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+      </svg>
+    `;
+
+    const playIcon = `
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    `;
+
+    const pauseIcon = `
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+      </svg>
+    `;
+
+    // Check if text is truncated
+    function isTextTruncated(element) {
+      return element.scrollHeight > element.clientHeight;
+    }
+
+    // Toggle mute for specific video
+    function toggleMute(videoIndex) {
+      const video = videoElements[videoIndex];
+      const button = muteButtons[videoIndex];
+      
+      video.muted = !video.muted;
+      isMuted = video.muted;
+      
+      button.innerHTML = video.muted ? volumeOffIcon : volumeOnIcon;
+      
+      videoElements.forEach((v, i) => {
+        v.muted = isMuted;
+        muteButtons[i].innerHTML = isMuted ? volumeOffIcon : volumeOnIcon;
+      });
+    }
+
+    // Toggle play/pause for video
+    function togglePlayPause(videoIndex) {
+      const video = videoElements[videoIndex];
+      const indicator = playPauseIndicators[videoIndex];
+      
+      if (video.paused) {
+        video.play();
+        videoPausedStates[videoIndex] = false;
+        showIndicator(indicator, playIcon);
+      } else {
+        video.pause();
+        videoPausedStates[videoIndex] = true;
+        showIndicator(indicator, pauseIcon);
+      }
+    }
+
+    // Show play/pause indicator
+    function showIndicator(indicator, icon) {
+      indicator.innerHTML = icon;
+      indicator.classList.remove('show');
+      void indicator.offsetWidth;
+      indicator.classList.add('show');
+    }
+
+    // Toggle description expansion
+    function toggleDescription(videoIndex) {
+      const descEl = descriptionElements[videoIndex];
+      const toggleBtn = toggleButtons[videoIndex];
+      const infoEl = infoElements[videoIndex];
+      
+      if (descEl.classList.contains('collapsed')) {
+        descEl.classList.remove('collapsed');
+        descEl.classList.add('expanded');
+        infoEl.classList.add('expanded');
+        toggleBtn.textContent = 'Show less';
+      } else {
+        descEl.classList.remove('expanded');
+        descEl.classList.add('collapsed');
+        infoEl.classList.remove('expanded');
+        toggleBtn.textContent = 'See more';
+      }
+    }
+
+    // Collapse description for specific video
+    function collapseDescription(videoIndex) {
+      const descEl = descriptionElements[videoIndex];
+      const toggleBtn = toggleButtons[videoIndex];
+      const infoEl = infoElements[videoIndex];
+      
+      if (descEl && descEl.classList.contains('expanded')) {
+        descEl.classList.remove('expanded');
+        descEl.classList.add('collapsed');
+        infoEl.classList.remove('expanded');
+        if (toggleBtn) {
+          toggleBtn.textContent = 'See more';
+        }
+      }
+    }
+
+    // Start countdown timer for ad
+    function startAdCountdown(slideIndex, timerElement, circleElement, textElement) {
+      const COUNTDOWN_DURATION = CONFIG.adCountdownSeconds;
+      const CIRCLE_RADIUS = 20;
+      const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS;
+      
+      let timeLeft = COUNTDOWN_DURATION;
+      textElement.textContent = timeLeft;
+      
+      circleElement.style.strokeDasharray = CIRCLE_CIRCUMFERENCE;
+      circleElement.style.strokeDashoffset = 0;
+      
+      const timer = setInterval(() => {
+        timeLeft--;
+        textElement.textContent = timeLeft;
+        
+        const progress = (COUNTDOWN_DURATION - timeLeft) / COUNTDOWN_DURATION;
+        const offset = CIRCLE_CIRCUMFERENCE * progress;
+        circleElement.style.strokeDashoffset = offset;
+        
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          scrollToSlide(slideIndex + 1);
+        }
+      }, 1000);
+      
+      adTimers[slideIndex] = timer;
+    }
+
+    // Stop ad countdown timer
+    function stopAdCountdown(slideIndex) {
+      if (adTimers[slideIndex]) {
+        clearInterval(adTimers[slideIndex]);
+        adTimers[slideIndex] = null;
+      }
+    }
+
+    // Create ad slide
+    function createAdSlide(adNumber, slideIndex) {
+      const slide = document.createElement('div');
+      slide.className = 'ad-slide';
+      
+      const adContainer = document.createElement('div');
+      adContainer.className = 'ad-container';
+      
+      const adPlaceholder = document.createElement('div');
+      adPlaceholder.className = 'ad-placeholder';
+      adPlaceholder.innerHTML = `
+        <div class="ad-label">Advertisement</div>
+        <div class="ad-size">300 x 250</div>
+        <div style="margin-top: 10px; font-size: 12px;">Ad Space #${adNumber}</div>
+      `;
+      
+      // Create countdown timer
+      const timerContainer = document.createElement('div');
+      timerContainer.className = 'countdown-timer';
+      
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('viewBox', '0 0 48 48');
+      
+      const circleBg = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circleBg.setAttribute('class', 'countdown-circle-bg');
+      circleBg.setAttribute('cx', '24');
+      circleBg.setAttribute('cy', '24');
+      circleBg.setAttribute('r', '20');
+      
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('class', 'countdown-circle');
+      circle.setAttribute('cx', '24');
+      circle.setAttribute('cy', '24');
+      circle.setAttribute('r', '20');
+      
+      svg.appendChild(circleBg);
+      svg.appendChild(circle);
+      
+      const text = document.createElement('div');
+      text.className = 'countdown-text';
+      text.textContent = CONFIG.adCountdownSeconds.toString();
+      
+      timerContainer.appendChild(svg);
+      timerContainer.appendChild(text);
+      
+      adContainer.appendChild(adPlaceholder);
+      adContainer.appendChild(timerContainer);
+      slide.appendChild(adContainer);
+      
+      // Store references for timer control
+      slide.dataset.slideIndex = slideIndex;
+      slide.timerElement = timerContainer;
+      slide.circleElement = circle;
+      slide.textElement = text;
+      
+      return slide;
+    }
+
+    // Create video slides with ads inserted
+    let slideIndex = 0;
+    let adCounter = 1;
+    
+    videos.forEach((video, videoIndex) => {
+      videoPausedStates[videoIndex] = false;
+      
+      const slide = document.createElement('div');
+      slide.className = 'video-slide';
+      
+      slideToVideoMap[slideIndex] = videoIndex;
+      videoToSlideMap[videoIndex] = slideIndex;
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'video-wrapper';
+      
+      const videoContainer = document.createElement('div');
+      videoContainer.className = 'video-container';
+      
+      const videoEl = document.createElement('video');
+      videoEl.playsInline = true;
+      videoEl.muted = false;
+      videoEl.loop = false;
+      videoEl.poster = `/api/placeholder/400/711`;
+      
+      const source = document.createElement('source');
+      source.src = video.src;
+      source.type = 'video/mp4';
+      videoEl.appendChild(source);
+      
+      videoElements.push(videoEl);
+      
+      videoEl.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePlayPause(videoIndex);
+      });
+      
+      videoEl.addEventListener('ended', () => {
+        if (!videoPausedStates[videoIndex]) {
+          const currentSlide = videoToSlideMap[videoIndex];
+          scrollToSlide(currentSlide + 1);
+        }
+      });
+      
+      const indicator = document.createElement('div');
+      indicator.className = 'play-pause-indicator';
+      playPauseIndicators.push(indicator);
+      
+      const muteBtn = document.createElement('button');
+      muteBtn.className = 'mute-button';
+      muteBtn.innerHTML = volumeOnIcon;
+      muteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMute(videoIndex);
+      });
+      muteButtons.push(muteBtn);
+      
+      const overlay = document.createElement('div');
+      overlay.className = 'video-info';
+      infoElements.push(overlay);
+      
+      const titleEl = document.createElement('h3');
+      titleEl.className = 'video-title';
+      titleEl.textContent = video.title;
+      
+      const descEl = document.createElement('p');
+      descEl.className = 'video-description collapsed';
+      descEl.textContent = video.description;
+      descriptionElements.push(descEl);
+      
+      overlay.appendChild(titleEl);
+      overlay.appendChild(descEl);
+      
+      setTimeout(() => {
+        if (isTextTruncated(descEl)) {
+          const toggleBtn = document.createElement('button');
+          toggleBtn.className = 'toggle-description';
+          toggleBtn.textContent = 'See more';
+          toggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleDescription(videoIndex);
+          });
+          overlay.appendChild(toggleBtn);
+          toggleButtons.push(toggleBtn);
+        } else {
+          toggleButtons.push(null);
+        }
+      }, 100);
+      
+      videoContainer.appendChild(videoEl);
+      videoContainer.appendChild(indicator);
+      videoContainer.appendChild(muteBtn);
+      videoContainer.appendChild(overlay);
+      wrapper.appendChild(videoContainer);
+      slide.appendChild(wrapper);
+      container.appendChild(slide);
+      
+      const dot = document.createElement('div');
+      dot.className = 'progress-dot';
+      if (videoIndex === 0) dot.classList.add('active');
+      progressContainer.appendChild(dot);
+      
+      slideIndex++;
+      
+      // Insert ad based on CONFIG.adFrequency
+      if ((videoIndex + 1) % CONFIG.adFrequency === 0 && videoIndex < videos.length - 1) {
+        const adSlide = createAdSlide(adCounter++, slideIndex);
+        container.appendChild(adSlide);
+        slideIndex++;
+      }
+    });
+
+    // Scroll to specific slide
+    function scrollToSlide(index) {
+      const slideHeight = window.innerHeight - 64;
+      container.scrollTo({
+        top: index * slideHeight,
+        behavior: 'smooth'
+      });
+    }
+
+    // Handle scroll
+    let scrollTimeout;
+    container.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const slideHeight = window.innerHeight - 64;
+        const newSlideIndex = Math.round(container.scrollTop / slideHeight);
+        
+        if (newSlideIndex !== currentSlideIndex) {
+          // Stop previous ad timer if it was an ad
+          stopAdCountdown(currentSlideIndex);
+          
+          currentSlideIndex = newSlideIndex;
+          
+          // Check if this is a video slide
+          if (slideToVideoMap.hasOwnProperty(newSlideIndex)) {
+            const newVideoIndex = slideToVideoMap[newSlideIndex];
+            
+            if (currentVideoIndex !== newVideoIndex) {
+              collapseDescription(currentVideoIndex);
+              videoPausedStates[currentVideoIndex] = false;
+            }
+            
+            currentVideoIndex = newVideoIndex;
+            updateVideos();
+          } else {
+            // This is an ad slide - start countdown
+            const adSlide = container.children[newSlideIndex];
+            if (adSlide && adSlide.timerElement) {
+              startAdCountdown(
+                newSlideIndex, 
+                adSlide.timerElement, 
+                adSlide.circleElement, 
+                adSlide.textElement
+              );
+            }
+          }
+        }
+      }, 100);
+    });
+
+    // Update video playback and progress indicators
+    function updateVideos() {
+      videoElements.forEach((video, videoIndex) => {
+        const dots = progressContainer.children;
+        
+        if (videoIndex === currentVideoIndex) {
+          video.play().catch(e => console.log('Play error:', e));
+          videoPausedStates[videoIndex] = false;
+          dots[videoIndex].classList.add('active');
+        } else {
+          video.pause();
+          video.currentTime = 0;
+          dots[videoIndex].classList.remove('active');
+        }
+      });
+    }
+
+    // Initialize
+    let hasInteracted = false;
+    
+    function startFirstVideo() {
+      if (!hasInteracted && videoElements.length > 0) {
+        hasInteracted = true;
+        videoElements[0].play().catch(e => {
+          console.log('Autoplay prevented. Click to play.');
+        });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(startFirstVideo, 100);
+    });
+
+    document.addEventListener('click', startFirstVideo, { once: true });
+    document.addEventListener('touchstart', startFirstVideo, { once: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+[Instructions for generator: 10s each | Aspect ratio: 9:16 | Captions on | Clean, informative tone | Mild upbeat background music; subtle whoosh SFX for transitions]
+Using Bottles With BPA — (10s)
+
+Visuals: Close-up of a scratched clear plastic bottle with a faint "BPA" stamp that glows red. Quick overlays: small icons for hormones, heart, blood pressure appear and pulse. Cut to glass/stainless steel bottle labeled "BPA-free" with a green check.
+On-screen text: "BPA can leach into drinks — opt for BPA-free, glass or stainless steel."
+Voiceover (1–2 short sentences): "Many plastic bottles contain BPA, which can leach into drinks and may affect hormones and heart health. Choose BPA-free, glass, or stainless steel."
+Music/SFX: low alarm whoosh on "BPA", then calming chime for alternatives.
+Sora-ready prompt: "Close-up plastic water bottle with glowing 'BPA' warning, overlay icons for hormones and heart, cut to glass/stainless bottle with green check — voiceover: 'Many plastic bottles contain BPA... choose BPA-free, glass, or stainless steel.' 10s, 9:16, captions."
+
+
+[Instructions for generator: 10s each | Aspect ratio: 9:16 | Captions on | Clean, informative tone | Mild upbeat background music; subtle whoosh SFX for transitions]
+Believing the Cold Water Myth — (10s)
+
+Visuals: Split-screen: left person drinks icy water and thumbs-up; right shows myth stamp "MYTH" stamping away a cartoon narrowed artery. Quick cut to steaming warm cup with caption "helps thin mucus."
+On-screen text: "Cold water DOES NOT harm digestion. Warm water can thin mucus if you’re sick."
+Voiceover: "Cold water doesn't harm digestion — it's safe to drink when hot. Warm water only helps a stuffy nose by thinning mucus."
+Music/SFX: light upbeat; stamp "MYTH" whoosh.
+Sora-ready prompt: "Split-screen iced water vs warm cup with 'MYTH' stamp debunking cold-water digestion myth — voiceover: 'Cold water doesn't harm digestion...' 10s, captions."
+
+[Instructions for generator: 10s each | Aspect ratio: 9:16 | Captions on | Clean, informative tone | Mild upbeat background music; subtle whoosh SFX for transitions]
+Adding Sliced Fruit or Veggies — (10s)
+
+Visuals: Hands slice an orange on a messy board (cross-contamination icons appear). Flash warning; then rinse fruit under running water, sanitize board, then place fruit in chilled pitcher.
+On-screen text: "Wash produce. Avoid cross-contamination."
+Voiceover: "Fruit-flavored water is tasty but can carry bacteria if produce or cutting boards aren't clean. Wash fruit and keep it chilled."
+Music/SFX: subtle caution tone then refreshing water sound.
+Sora-ready prompt: "Cut orange on dirty board with bacteria overlays, then wash under running water and show clean pitcher — voiceover: 'Wash fruit... avoid cross-contamination.' 10s, captions."
+
+Not Drinking It With Alcohol — (10s)
+
+Visuals: Bar scene: person takes a sip of beer, then pours a glass of water and raises it — animated meter labeled "hydration" rises. Display "1:1 rule" graphic.
+On-screen text: "Match alcoholic drinks with a glass of water (1:1)."
+Voiceover: "Alcohol is a diuretic and causes dehydration — match each alcoholic drink with a glass of water to stay hydrated."
+Music/SFX: light club background, glass clink SFX.
+Sora-ready prompt: "Bar scene alternating beer and water, hydration meter rising, bold '1:1 rule' graphic — voiceover: 'Alcohol causes dehydration — match each drink with water.' 10s, captions."
+
+Not Downing a Full Glass With Pills — (10s)
+
+Visuals: Two quick shots: (A) someone chokes on a pill with a sip; (B) same person drinks a full glass, smile, animation shows pill sliding and absorption line into body.
+On-screen text: "Use pills as a hydration opportunity — drink a full glass."
+Voiceover: "Take meds and vitamins with a full glass of water — it prevents irritation, helps absorption, and keeps pills from getting stuck."
+Music/SFX: small relief chime on good action.
+Sora-ready prompt: "Side-by-side 'wrong' vs 'right': tiny sip causes pill to stick vs full glass showing smooth pill passage and absorption animation — voiceover: 'Take meds with a full glass of water.' 10s, captions."
+
+Adding Anything Artificial — (10s)
+
+Visuals: Table with packets: sugar, aspartame, HFCS with red X; then fresh lemon, mint, cucumber with green check. Quick graphic: "Avoid daily artificial sweeteners."
+On-screen text: "Limit artificial flavorings & sweeteners. Use lemon, mint, cucumber."
+Voiceover: "Daily artificial flavorings and sweeteners aren't recommended — choose real options like lemon, mint, or cucumber instead."
+Music/SFX: light upbeat switch from harsh to fresh sound.
+Sora-ready prompt: "Show artificial sweetener packets with red X, then fresh lemon & mint with green check — voiceover: 'Avoid daily artificial flavorings; use real ingredients.' 10s, captions."
+
+Not Reaching for It When Tired — (10s)
+
+Visuals: Tired person at desk, yawning; icon checklist appears showing dehydration signs. They drink a glass, energy bar rises, they smile and refocus.
+On-screen text: "Fatigue can be dehydration — drink water first."
+Voiceover: "Feeling tired? Dehydration is often the cause. Try a glass of water before grabbing coffee or a snack."
+Music/SFX: brief energizing swell when hydration increases.
+Sora-ready prompt: "Tired person at desk drinks water, energy meter rises and checklist shows dehydration signs — voiceover: 'Feeling tired? Try a glass of water.' 10s, captions."
+
+Not Taking Your Time — (10s)
+
+Visuals: Person chugs huge bottle, alarm clock rings and bathroom door graphic. Cut to someone sipping water through day with small cup icons filling gradually. Overlay "≈1 L/hour max."
+On-screen text: "Don't chug — sip steadily. ~1 L/hour max."
+Voiceover: "Don't chug huge amounts at once — sip steadily throughout the day. Experts suggest no more than about 1 liter per hour."
+Music/SFX: comedic gulp then calm sipping sound.
+Sora-ready prompt: "Show chugging then contrast with slow sipping montage and '≈1 L/hour' overlay — voiceover: 'Sip steadily... about 1 liter per hour.' 10s, captions."
+
+Drinking Out of Rivers or Streams — (10s)
+
+Visuals: Beautiful stream with hidden warning overlays: animal waste, chemicals, toxic plant icons. Show someone using a portable filter and purification tablet before drinking.
+On-screen text: "Treat natural water — filter or purify before drinking."
+Voiceover: "Clear-looking streams can harbor bacteria, animal waste, and chemicals. Always filter or use purification tablets before drinking."
+Music/SFX: nature ambience, then alert tone, then safe water sound.
+Sora-ready prompt: "Scenic stream with warning overlays, then show filtering device and purification tablet being used — voiceover: 'Filter or purify natural water before drinking.' 10s, captions."
+
+Not Drinking Enough — (10s)
+
+Visuals: Montage of benefits: gut animation for digestion, kidney animation flushing, skin glowing. Cups counter animates up to "11.5 cups (women) / 15.5 cups (men)" briefly.
+On-screen text: "Minimum daily: 11.5 cups (women), 15.5 cups (men). Water = digestion, healthy skin, kidney protection."
+Voiceover: "Your body needs water for digestion, skin, and to prevent kidney stones. Aim for at least about 11.5 cups a day for women and 15.5 for men."
+Music/SFX: uplifting finish chord.
+Sora-ready prompt: "Benefit montage (digestion, kidneys, glowing skin) with animated cups tally to '11.5 cups women / 15.5 cups men' — voiceover: 'Aim for at least about 11.5 cups for women and 15.5 for men.' 10s, captions."
+Usage notes:
+Use short caption lines (max 3–6 words) for readability on mobile.
+Keep VO lines to ~10–14 seconds spoken pace; trim if needed to match 10s runtime.
+Thumbnail idea (optional): composite of BPA bottle warning + glass bottle + bold title "10 Ways You're Drinking Water Wrong".
+If you want, I can convert each Sora-ready prompt into single-line prompt format for direct copy/paste into your generator.
