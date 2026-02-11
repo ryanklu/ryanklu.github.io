@@ -46,8 +46,8 @@
     }
 
     .shorts-text {
-      font-size: 24px;
-      /* font-weight: 600; */
+      font-size: 20px;
+      font-weight: 600;
       color: #fff;
       letter-spacing: 0.5px;
     }
@@ -364,11 +364,26 @@
     const CONFIG = {
       // Ad insertion frequency: Show ad after every X videos
       // Examples: 2 = ad after every 2 videos, 3 = ad after every 3 videos
-      adFrequency: 3,
+      adFrequency: 2,
       
       // Ad countdown duration in seconds
       adCountdownSeconds: 5
     };
+
+    // Parse URL query parameters to override config
+    (function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      
+      // Check for 'ad' parameter to override adFrequency
+      const adParam = urlParams.get('ad');
+      if (adParam !== null) {
+        const adValue = parseInt(adParam, 10);
+        if (!isNaN(adValue) && adValue > 0) {
+          CONFIG.adFrequency = adValue;
+          console.log(`Ad frequency overridden by URL parameter: ${adValue}`);
+        }
+      }
+    })();
     // ========================================
 
     // VIDEO DATA - Replace with your actual video sources
@@ -438,6 +453,7 @@
     let currentVideoIndex = 0;
     let currentSlideIndex = 0;
     let isMuted = false;
+    let hasAutoplayStarted = false;
     const videoElements = [];
     const muteButtons = [];
     const descriptionElements = [];
@@ -672,9 +688,18 @@
       
       const videoEl = document.createElement('video');
       videoEl.playsInline = true;
-      videoEl.muted = false;
       videoEl.loop = false;
       videoEl.poster = `/api/placeholder/400/711`;
+      
+      // First video gets special autoplay handling
+      if (videoIndex === 0) {
+        videoEl.autoplay = true;
+        videoEl.muted = true; // Start muted to ensure autoplay works
+        videoEl.setAttribute('playsinline', '');
+        videoEl.setAttribute('webkit-playsinline', '');
+      } else {
+        videoEl.muted = false;
+      }
       
       const source = document.createElement('source');
       source.src = video.src;
@@ -695,13 +720,32 @@
         }
       });
       
+      // Auto-unmute first video after it starts playing
+      if (videoIndex === 0) {
+        let hasUnmuted = false;
+        const unmuteHandler = () => {
+          if (!hasUnmuted) {
+            hasUnmuted = true;
+            setTimeout(() => {
+              videoEl.muted = false;
+              muteButtons[0].innerHTML = volumeOnIcon;
+              isMuted = false;
+              console.log('First video unmuted after autoplay');
+            }, 150);
+          }
+        };
+        
+        videoEl.addEventListener('playing', unmuteHandler);
+        videoEl.addEventListener('play', unmuteHandler);
+      }
+      
       const indicator = document.createElement('div');
       indicator.className = 'play-pause-indicator';
       playPauseIndicators.push(indicator);
       
       const muteBtn = document.createElement('button');
       muteBtn.className = 'mute-button';
-      muteBtn.innerHTML = volumeOnIcon;
+      muteBtn.innerHTML = (videoIndex === 0) ? volumeOffIcon : volumeOnIcon;
       muteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         toggleMute(videoIndex);
@@ -799,7 +843,11 @@
             currentVideoIndex = newVideoIndex;
             updateVideos();
           } else {
-            // This is an ad slide - start countdown
+            // This is an ad slide - pause all videos and start countdown
+            videoElements.forEach((video) => {
+              video.pause();
+            });
+            
             const adSlide = container.children[newSlideIndex];
             if (adSlide && adSlide.timerElement) {
               startAdCountdown(
@@ -831,24 +879,60 @@
       });
     }
 
-    // Initialize
-    let hasInteracted = false;
-    
-    function startFirstVideo() {
-      if (!hasInteracted && videoElements.length > 0) {
-        hasInteracted = true;
-        videoElements[0].play().catch(e => {
-          console.log('Autoplay prevented. Click to play.');
-        });
+    // Aggressive autoplay function for first video
+    function forceFirstVideoAutoplay() {
+      if (!hasAutoplayStarted && videoElements.length > 0) {
+        const firstVideo = videoElements[0];
+        
+        // Reset to beginning
+        firstVideo.currentTime = 0;
+        
+        // Try to play
+        const playPromise = firstVideo.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            hasAutoplayStarted = true;
+            console.log('✓ First video autoplay successful');
+          }).catch(error => {
+            console.log('⚠ Autoplay blocked, retrying...', error);
+            // Retry after short delay
+            setTimeout(() => {
+              firstVideo.play().catch(e => console.log('Retry failed'));
+            }, 200);
+          });
+        }
       }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(startFirstVideo, 100);
+    // Initialize autoplay on page load/refresh
+    window.addEventListener('load', () => {
+      console.log('Page loaded - starting autoplay');
+      setTimeout(forceFirstVideoAutoplay, 50);
+      setTimeout(forceFirstVideoAutoplay, 200);
+      setTimeout(forceFirstVideoAutoplay, 500);
     });
 
-    document.addEventListener('click', startFirstVideo, { once: true });
-    document.addEventListener('touchstart', startFirstVideo, { once: true });
+    // Also try on DOMContentLoaded
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM ready - starting autoplay');
+        setTimeout(forceFirstVideoAutoplay, 50);
+      });
+    } else {
+      setTimeout(forceFirstVideoAutoplay, 50);
+    }
+
+    // Fallback: Start on any user interaction
+    const startOnInteraction = (e) => {
+      if (!hasAutoplayStarted) {
+        forceFirstVideoAutoplay();
+      }
+    };
+    
+    ['click', 'touchstart', 'touchend', 'scroll', 'keydown'].forEach(eventType => {
+      document.addEventListener(eventType, startOnInteraction, { once: true, passive: true });
+    });
   </script>
 </body>
 </html>
