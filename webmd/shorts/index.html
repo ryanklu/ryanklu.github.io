@@ -2,21 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>WebMD Shorts</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
       background-color: #000;
       color: #fff;
       overflow: hidden;
       height: 100vh;
+      width: 100vw;
+      position: fixed;
     }
 
     /* Header */
@@ -32,6 +35,7 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      min-height: 64px;
     }
 
     .logo {
@@ -47,8 +51,8 @@
     }
 
     .shorts-text {
-      font-size: 24px;
-      /* font-weight: 600; */
+      font-size: 20px;
+      font-weight: 600;
       color: #fff;
       letter-spacing: 0.5px;
       white-space: nowrap;
@@ -68,10 +72,23 @@
       text-overflow: ellipsis;
     }
 
-    /* Responsive adjustments */
+    .header-spacer {
+      width: 1px;
+      flex-shrink: 0;
+    }
+
+    /* Tablet adjustments */
+    @media (max-width: 1024px) {
+      .header-title {
+        font-size: 16px;
+        max-width: 45%;
+      }
+    }
+
     @media (max-width: 768px) {
       header {
         padding: 0.75rem 1rem;
+        min-height: 56px;
       }
 
       .logo img {
@@ -79,7 +96,7 @@
       }
 
       .shorts-text {
-        font-size: 16px;
+        font-size: 18px;
       }
 
       .header-title {
@@ -88,17 +105,23 @@
       }
     }
 
+    /* Mobile - stacked layout */
     @media (max-width: 480px) {
       header {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
         padding: 0.75rem 1rem;
+        min-height: auto;
       }
 
       .logo {
         width: 100%;
         justify-content: flex-start;
+      }
+
+      .shorts-text {
+        font-size: 16px;
       }
 
       .header-title {
@@ -110,32 +133,48 @@
         white-space: normal;
         line-height: 1.3;
       }
+
+      .header-spacer {
+        display: none;
+      }
     }
 
     /* Video Container */
     #videoContainer {
       margin-top: 64px;
       height: calc(100vh - 64px);
+      height: calc(100dvh - 64px); /* Use dynamic viewport height on mobile */
       overflow-y: scroll;
+      overflow-x: hidden;
       scroll-snap-type: y mandatory;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
 
-    @media (max-width: 480px) {
-      #videoContainer {
-        margin-top: 80px;
-        height: calc(100vh - 80px);
-      }
-    }
-
     #videoContainer::-webkit-scrollbar {
       display: none;
     }
 
+    @media (max-width: 768px) {
+      #videoContainer {
+        margin-top: 56px;
+        height: calc(100vh - 56px);
+        height: calc(100dvh - 56px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      #videoContainer {
+        margin-top: 80px;
+        height: calc(100vh - 80px);
+        height: calc(100dvh - 80px);
+      }
+    }
+
     .video-slide, .ad-slide {
       height: calc(100vh - 64px);
+      height: calc(100dvh - 64px);
       width: 100%;
       scroll-snap-align: start;
       scroll-snap-stop: always;
@@ -145,9 +184,17 @@
       position: relative;
     }
 
+    @media (max-width: 768px) {
+      .video-slide, .ad-slide {
+        height: calc(100vh - 56px);
+        height: calc(100dvh - 56px);
+      }
+    }
+
     @media (max-width: 480px) {
       .video-slide, .ad-slide {
         height: calc(100vh - 80px);
+        height: calc(100dvh - 80px);
       }
     }
 
@@ -159,6 +206,21 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .video-wrapper {
+        max-width: 100%;
+        padding: 0 0.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-wrapper {
+        padding: 0;
+        max-width: 100%;
+      }
     }
 
     .video-container {
@@ -171,6 +233,23 @@
       justify-content: center;
       border-radius: 20px;
       overflow: hidden;
+      max-height: 100%;
+    }
+
+    @media (max-width: 480px) {
+      .video-container {
+        border-radius: 0;
+        aspect-ratio: auto;
+        height: 100%;
+      }
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
+      touch-action: manipulation;
     }
 
     /* Initial Play Button */
@@ -191,12 +270,15 @@
       transition: all 0.3s ease;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
       border: 2px solid rgba(255, 255, 255, 0.3);
+      touch-action: manipulation;
     }
 
-    .initial-play-button:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-      transform: translate(-50%, -50%) scale(1.1);
-      border-color: rgba(255, 255, 255, 0.5);
+    @media (hover: hover) {
+      .initial-play-button:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        transform: translate(-50%, -50%) scale(1.1);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
     }
 
     .initial-play-button:active {
@@ -214,6 +296,18 @@
       display: none;
     }
 
+    @media (max-width: 480px) {
+      .initial-play-button {
+        width: 70px;
+        height: 70px;
+      }
+
+      .initial-play-button svg {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
     /* Ad Container */
     .ad-container {
       position: relative;
@@ -225,6 +319,20 @@
       align-items: center;
       justify-content: center;
       overflow: hidden;
+    }
+
+    @media (max-width: 480px) {
+      .ad-container {
+        width: 280px;
+        height: 233px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .ad-container {
+        width: 250px;
+        height: 208px;
+      }
     }
 
     .ad-placeholder {
@@ -294,13 +402,6 @@
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
-    video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      cursor: pointer;
-    }
-
     /* Mute Button */
     .mute-button {
       position: absolute;
@@ -317,11 +418,14 @@
       justify-content: center;
       transition: background-color 0.2s, transform 0.1s;
       z-index: 10;
+      touch-action: manipulation;
     }
 
-    .mute-button:hover {
-      background-color: rgba(0, 0, 0, 0.8);
-      transform: scale(1.05);
+    @media (hover: hover) {
+      .mute-button:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+        transform: scale(1.05);
+      }
     }
 
     .mute-button:active {
@@ -332,6 +436,20 @@
       width: 24px;
       height: 24px;
       fill: white;
+    }
+
+    @media (max-width: 480px) {
+      .mute-button {
+        width: 44px;
+        height: 44px;
+        top: 0.75rem;
+        right: 0.75rem;
+      }
+
+      .mute-button svg {
+        width: 22px;
+        height: 22px;
+      }
     }
 
     /* Video Info Overlay */
@@ -345,6 +463,13 @@
       border-radius: 0 0 20px 20px;
       transition: background-color 0.3s;
       pointer-events: none;
+    }
+
+    @media (max-width: 480px) {
+      .video-info {
+        padding: 1rem;
+        border-radius: 0;
+      }
     }
 
     .video-info * {
@@ -362,6 +487,18 @@
       margin-bottom: 0.5rem;
     }
 
+    @media (max-width: 768px) {
+      .video-title {
+        font-size: 1.125rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-title {
+        font-size: 1rem;
+      }
+    }
+
     .video-description {
       color: #ccc;
       font-size: 0.875rem;
@@ -369,6 +506,12 @@
       margin-bottom: 0.25rem;
       overflow: hidden;
       transition: max-height 0.3s ease-in-out;
+    }
+
+    @media (max-width: 480px) {
+      .video-description {
+        font-size: 0.8125rem;
+      }
     }
 
     .video-description.collapsed {
@@ -393,10 +536,19 @@
       background: none;
       border: none;
       padding: 0;
+      touch-action: manipulation;
     }
 
-    .toggle-description:hover {
-      text-decoration: underline;
+    @media (hover: hover) {
+      .toggle-description:hover {
+        text-decoration: underline;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .toggle-description {
+        font-size: 0.8125rem;
+      }
     }
 
     /* Progress Indicators */
@@ -407,11 +559,21 @@
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
+      z-index: 20;
+    }
+
+    @media (max-width: 768px) {
+      .progress-indicators {
+        top: 70px;
+        right: 0.75rem;
+      }
     }
 
     @media (max-width: 480px) {
       .progress-indicators {
         top: 96px;
+        right: 0.5rem;
+        gap: 0.375rem;
       }
     }
 
@@ -421,6 +583,13 @@
       background-color: #666;
       border-radius: 2px;
       transition: background-color 0.3s;
+    }
+
+    @media (max-width: 480px) {
+      .progress-dot {
+        width: 3px;
+        height: 24px;
+      }
     }
 
     .progress-dot.active {
@@ -455,10 +624,30 @@
       fill: white;
     }
 
+    @media (max-width: 480px) {
+      .play-pause-indicator {
+        width: 70px;
+        height: 70px;
+      }
+
+      .play-pause-indicator svg {
+        width: 35px;
+        height: 35px;
+      }
+    }
+
     @keyframes fadeOut {
       0% { opacity: 1; }
       70% { opacity: 1; }
       100% { opacity: 0; }
+    }
+
+    /* Prevent text selection on mobile */
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
   </style>
 </head>
@@ -470,7 +659,7 @@
       <span class="shorts-text">Shorts</span>
     </div>
     <h1 class="header-title">10 Ways You're Drinking Water Wrong</h1>
-    <div style="width: 1px;"></div> <!-- Spacer for flexbox balance -->
+    <div class="header-spacer"></div>
   </header>
 
   <!-- Video Container -->
@@ -485,7 +674,6 @@
     // ========================================
     const CONFIG = {
       // Ad insertion frequency: Show ad after every X videos
-      // Examples: 2 = ad after every 2 videos, 3 = ad after every 3 videos
       adFrequency: 2,
       
       // Ad countdown duration in seconds
@@ -495,8 +683,6 @@
     // Parse URL query parameters to override config
     (function() {
       const urlParams = new URLSearchParams(window.location.search);
-      
-      // Check for 'ad' parameter to override adFrequency
       const adParam = urlParams.get('ad');
       if (adParam !== null) {
         const adValue = parseInt(adParam, 10);
@@ -508,7 +694,7 @@
     })();
     // ========================================
 
-    // VIDEO DATA - Replace with your actual video sources
+    // VIDEO DATA
     const videos = [
       { 
         id: 1, 
@@ -574,9 +760,9 @@
 
     let currentVideoIndex = 0;
     let currentSlideIndex = 0;
-    let isMuted = true; // Start muted
-    let userHasStartedPlayback = false; // Track if user clicked play
-    let globalPauseState = false; // Track if user manually paused - affects all videos
+    let isMuted = true;
+    let userHasStartedPlayback = false;
+    let globalPauseState = false;
     const videoElements = [];
     const muteButtons = [];
     const playButtons = [];
@@ -592,91 +778,42 @@
     const progressContainer = document.getElementById('progressIndicators');
 
     // SVG Icons
-    const volumeOnIcon = `
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-      </svg>
-    `;
+    const volumeOnIcon = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>`;
+    const volumeOffIcon = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>`;
+    const playIcon = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>`;
+    const pauseIcon = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/></svg>`;
 
-    const volumeOffIcon = `
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
-      </svg>
-    `;
-
-    const playIcon = `
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 5v14l11-7z"/>
-      </svg>
-    `;
-
-    const pauseIcon = `
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-      </svg>
-    `;
-
-    // Check if text is truncated
     function isTextTruncated(element) {
       return element.scrollHeight > element.clientHeight;
     }
 
-    // Toggle mute for specific video
     function toggleMute(videoIndex) {
-      const video = videoElements[videoIndex];
-      const button = muteButtons[videoIndex];
-      
-      // Toggle the global mute state
       isMuted = !isMuted;
-      
-      // Apply to all videos
       videoElements.forEach((v, i) => {
         v.muted = isMuted;
         muteButtons[i].innerHTML = isMuted ? volumeOffIcon : volumeOnIcon;
       });
-      
-      console.log(isMuted ? '🔇 All videos muted' : '🔊 All videos unmuted');
     }
 
-    // Toggle play/pause for video - now affects global state
     function togglePlayPause(videoIndex) {
       const video = videoElements[videoIndex];
       const indicator = playPauseIndicators[videoIndex];
       
       if (video.paused) {
-        // User clicked play - resume autoplay for all videos
         globalPauseState = false;
         video.play();
         videoPausedStates[videoIndex] = false;
         showIndicator(indicator, playIcon);
-        
-        // Hide all play buttons when resuming
-        playButtons.forEach(btn => {
-          if (btn) {
-            btn.classList.add('hidden');
-          }
-        });
-        
-        console.log('▶️ Autoplay resumed - all videos will autoplay');
+        playButtons.forEach(btn => btn && btn.classList.add('hidden'));
       } else {
-        // User clicked pause - pause all future videos
         globalPauseState = true;
         video.pause();
         videoPausedStates[videoIndex] = true;
         showIndicator(indicator, pauseIcon);
-        
-        // Show all play buttons when pausing
-        playButtons.forEach(btn => {
-          if (btn) {
-            btn.classList.remove('hidden');
-          }
-        });
-        
-        console.log('⏸️ Global pause activated - all videos will stay paused, play buttons shown');
+        playButtons.forEach(btn => btn && btn.classList.remove('hidden'));
       }
     }
 
-    // Show play/pause indicator
     function showIndicator(indicator, icon) {
       indicator.innerHTML = icon;
       indicator.classList.remove('show');
@@ -684,7 +821,6 @@
       indicator.classList.add('show');
     }
 
-    // Toggle description expansion
     function toggleDescription(videoIndex) {
       const descEl = descriptionElements[videoIndex];
       const toggleBtn = toggleButtons[videoIndex];
@@ -703,7 +839,6 @@
       }
     }
 
-    // Collapse description for specific video
     function collapseDescription(videoIndex) {
       const descEl = descriptionElements[videoIndex];
       const toggleBtn = toggleButtons[videoIndex];
@@ -713,13 +848,10 @@
         descEl.classList.remove('expanded');
         descEl.classList.add('collapsed');
         infoEl.classList.remove('expanded');
-        if (toggleBtn) {
-          toggleBtn.textContent = 'See more';
-        }
+        if (toggleBtn) toggleBtn.textContent = 'See more';
       }
     }
 
-    // Start countdown timer for ad
     function startAdCountdown(slideIndex, timerElement, circleElement, textElement) {
       const COUNTDOWN_DURATION = CONFIG.adCountdownSeconds;
       const CIRCLE_RADIUS = 20;
@@ -727,17 +859,14 @@
       
       let timeLeft = COUNTDOWN_DURATION;
       textElement.textContent = timeLeft;
-      
       circleElement.style.strokeDasharray = CIRCLE_CIRCUMFERENCE;
       circleElement.style.strokeDashoffset = 0;
       
       const timer = setInterval(() => {
         timeLeft--;
         textElement.textContent = timeLeft;
-        
         const progress = (COUNTDOWN_DURATION - timeLeft) / COUNTDOWN_DURATION;
-        const offset = CIRCLE_CIRCUMFERENCE * progress;
-        circleElement.style.strokeDashoffset = offset;
+        circleElement.style.strokeDashoffset = CIRCLE_CIRCUMFERENCE * progress;
         
         if (timeLeft <= 0) {
           clearInterval(timer);
@@ -748,7 +877,6 @@
       adTimers[slideIndex] = timer;
     }
 
-    // Stop ad countdown timer
     function stopAdCountdown(slideIndex) {
       if (adTimers[slideIndex]) {
         clearInterval(adTimers[slideIndex]);
@@ -756,7 +884,6 @@
       }
     }
 
-    // Create ad slide
     function createAdSlide(adNumber, slideIndex) {
       const slide = document.createElement('div');
       slide.className = 'ad-slide';
@@ -772,7 +899,6 @@
         <div style="margin-top: 10px; font-size: 12px;">Ad Space #${adNumber}</div>
       `;
       
-      // Create countdown timer
       const timerContainer = document.createElement('div');
       timerContainer.className = 'countdown-timer';
       
@@ -800,12 +926,10 @@
       
       timerContainer.appendChild(svg);
       timerContainer.appendChild(text);
-      
       adContainer.appendChild(adPlaceholder);
       adContainer.appendChild(timerContainer);
       slide.appendChild(adContainer);
       
-      // Store references for timer control
       slide.dataset.slideIndex = slideIndex;
       slide.timerElement = timerContainer;
       slide.circleElement = circle;
@@ -814,38 +938,23 @@
       return slide;
     }
 
-    // Handle play button click on any video
     function handlePlayClick(videoIndex) {
       if (!userHasStartedPlayback) {
         userHasStartedPlayback = true;
-        isMuted = false; // Unmute all videos
-        
-        // Update all mute buttons
-        muteButtons.forEach(btn => {
-          btn.innerHTML = volumeOnIcon;
-        });
-        
-        console.log('🎬 User started playback - all play buttons removed, videos will autoplay unmuted');
+        isMuted = false;
+        muteButtons.forEach(btn => btn.innerHTML = volumeOnIcon);
       }
       
-      // Resume autoplay if it was paused
       globalPauseState = false;
+      playButtons.forEach(btn => btn && btn.classList.add('hidden'));
       
-      // Hide ALL play buttons when clicking play
-      playButtons.forEach(btn => {
-        if (btn) {
-          btn.classList.add('hidden');
-        }
-      });
-      
-      // Start playing the video
       const video = videoElements[videoIndex];
       video.muted = isMuted;
       video.play();
       videoPausedStates[videoIndex] = false;
     }
 
-    // Create video slides with ads inserted
+    // Create video slides
     let slideIndex = 0;
     let adCounter = 1;
     
@@ -866,14 +975,9 @@
       
       const videoEl = document.createElement('video');
       videoEl.playsInline = true;
-      videoEl.muted = true; // Start muted
+      videoEl.muted = true;
       videoEl.loop = false;
-      videoEl.preload = 'metadata'; // Preload video metadata and first frame
-      
-      // For first video, preload more data to show the video
-      if (videoIndex === 0) {
-        videoEl.preload = 'auto';
-      }
+      videoEl.preload = videoIndex === 0 ? 'auto' : 'metadata';
       
       const source = document.createElement('source');
       source.src = video.src;
@@ -882,7 +986,6 @@
       
       videoElements.push(videoEl);
       
-      // Load the first frame
       videoEl.addEventListener('loadeddata', () => {
         videoEl.currentTime = 0;
       }, { once: true });
@@ -897,7 +1000,6 @@
       });
       
       videoEl.addEventListener('ended', () => {
-        // Only auto-advance if not globally paused
         if (!globalPauseState && !videoPausedStates[videoIndex]) {
           const currentSlide = videoToSlideMap[videoIndex];
           scrollToSlide(currentSlide + 1);
@@ -917,7 +1019,6 @@
       });
       muteButtons.push(muteBtn);
       
-      // Create play button for ALL videos
       const playButton = document.createElement('button');
       playButton.className = 'initial-play-button';
       playButton.innerHTML = playIcon;
@@ -976,7 +1077,6 @@
       
       slideIndex++;
       
-      // Insert ad based on CONFIG.adFrequency
       if ((videoIndex + 1) % CONFIG.adFrequency === 0 && videoIndex < videos.length - 1) {
         const adSlide = createAdSlide(adCounter++, slideIndex);
         container.appendChild(adSlide);
@@ -984,30 +1084,25 @@
       }
     });
 
-    // Scroll to specific slide
     function scrollToSlide(index) {
-      const slideHeight = window.innerHeight - 64;
+      const slideHeight = container.offsetHeight;
       container.scrollTo({
         top: index * slideHeight,
         behavior: 'smooth'
       });
     }
 
-    // Handle scroll
     let scrollTimeout;
     container.addEventListener('scroll', () => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
-        const slideHeight = window.innerHeight - 64;
+        const slideHeight = container.offsetHeight;
         const newSlideIndex = Math.round(container.scrollTop / slideHeight);
         
         if (newSlideIndex !== currentSlideIndex) {
-          // Stop previous ad timer if it was an ad
           stopAdCountdown(currentSlideIndex);
-          
           currentSlideIndex = newSlideIndex;
           
-          // Check if this is a video slide
           if (slideToVideoMap.hasOwnProperty(newSlideIndex)) {
             const newVideoIndex = slideToVideoMap[newSlideIndex];
             
@@ -1019,39 +1114,27 @@
             currentVideoIndex = newVideoIndex;
             updateVideos();
           } else {
-            // This is an ad slide - pause all videos and start countdown
-            videoElements.forEach((video) => {
-              video.pause();
-            });
-            
+            videoElements.forEach((video) => video.pause());
             const adSlide = container.children[newSlideIndex];
             if (adSlide && adSlide.timerElement) {
-              startAdCountdown(
-                newSlideIndex, 
-                adSlide.timerElement, 
-                adSlide.circleElement, 
-                adSlide.textElement
-              );
+              startAdCountdown(newSlideIndex, adSlide.timerElement, adSlide.circleElement, adSlide.textElement);
             }
           }
         }
       }, 100);
-    });
+    }, { passive: true });
 
-    // Update video playback and progress indicators
     function updateVideos() {
       videoElements.forEach((video, videoIndex) => {
         const dots = progressContainer.children;
         
         if (videoIndex === currentVideoIndex) {
-          // Only autoplay if user has started playback AND not globally paused
           if (userHasStartedPlayback && !globalPauseState) {
             video.muted = isMuted;
             video.play().catch(e => console.log('Play error:', e));
             videoPausedStates[videoIndex] = false;
             dots[videoIndex].classList.add('active');
           } else if (userHasStartedPlayback && globalPauseState) {
-            // User has paused - keep video paused
             video.pause();
             dots[videoIndex].classList.add('active');
           }
